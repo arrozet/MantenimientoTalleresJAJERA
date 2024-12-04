@@ -42,6 +42,10 @@ namespace TalleresJAJERA {
 	private: System::Windows::Forms::Label^ label3;
 	private: System::Windows::Forms::TextBox^ tNombre;
 	private: System::Windows::Forms::TextBox^ tFabricante;
+	private: System::Windows::Forms::Button^ bInsertar;
+	private: System::Windows::Forms::Button^ bActualizar;
+	private: System::Windows::Forms::Button^ bEliminar;
+	private: System::Windows::Forms::Button^ bLimpiar;
 
 
 	protected:
@@ -71,6 +75,10 @@ namespace TalleresJAJERA {
 			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->tNombre = (gcnew System::Windows::Forms::TextBox());
 			this->tFabricante = (gcnew System::Windows::Forms::TextBox());
+			this->bInsertar = (gcnew System::Windows::Forms::Button());
+			this->bActualizar = (gcnew System::Windows::Forms::Button());
+			this->bEliminar = (gcnew System::Windows::Forms::Button());
+			this->bLimpiar = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->testDataGridView))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -132,11 +140,51 @@ namespace TalleresJAJERA {
 			this->tFabricante->Size = System::Drawing::Size(824, 20);
 			this->tFabricante->TabIndex = 7;
 			// 
+			// bInsertar
+			// 
+			this->bInsertar->Location = System::Drawing::Point(190, 613);
+			this->bInsertar->Name = L"bInsertar";
+			this->bInsertar->Size = System::Drawing::Size(114, 23);
+			this->bInsertar->TabIndex = 8;
+			this->bInsertar->Text = L"Insertar";
+			this->bInsertar->UseVisualStyleBackColor = true;
+			// 
+			// bActualizar
+			// 
+			this->bActualizar->Location = System::Drawing::Point(407, 613);
+			this->bActualizar->Name = L"bActualizar";
+			this->bActualizar->Size = System::Drawing::Size(114, 23);
+			this->bActualizar->TabIndex = 9;
+			this->bActualizar->Text = L"Actualizar";
+			this->bActualizar->UseVisualStyleBackColor = true;
+			// 
+			// bEliminar
+			// 
+			this->bEliminar->Location = System::Drawing::Point(625, 613);
+			this->bEliminar->Name = L"bEliminar";
+			this->bEliminar->Size = System::Drawing::Size(114, 23);
+			this->bEliminar->TabIndex = 10;
+			this->bEliminar->Text = L"Eliminar";
+			this->bEliminar->UseVisualStyleBackColor = true;
+			// 
+			// bLimpiar
+			// 
+			this->bLimpiar->Location = System::Drawing::Point(831, 613);
+			this->bLimpiar->Name = L"bLimpiar";
+			this->bLimpiar->Size = System::Drawing::Size(114, 23);
+			this->bLimpiar->TabIndex = 11;
+			this->bLimpiar->Text = L"Limpiar";
+			this->bLimpiar->UseVisualStyleBackColor = true;
+			// 
 			// Test
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1154, 675);
+			this->Controls->Add(this->bLimpiar);
+			this->Controls->Add(this->bEliminar);
+			this->Controls->Add(this->bActualizar);
+			this->Controls->Add(this->bInsertar);
 			this->Controls->Add(this->tFabricante);
 			this->Controls->Add(this->tNombre);
 			this->Controls->Add(this->label3);
