@@ -76,6 +76,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <CopyLocalProjectReference>true</CopyLocalProjectReference>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LibraryPath>C:\Program Files\MySQL\MySQL Connector C++ 8.0\lib64\vs14;$(LibraryPath)</LibraryPath>
+    <PublicIncludeDirectories>C:\Program Files\MySQL\MySQL Connector C++ 8.0\include\jdbc;$(PublicIncludeDirectories)</PublicIncludeDirectories>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -108,11 +112,16 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);C:\Program Files\MySQL\MySQL Connector C++ 8.0\include\jdbc</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies />
+      <AdditionalDependencies>mysqlcppconn.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -122,21 +131,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="LoginForm.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Source.cpp" />
     <ClCompile Include="Test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LoginForm.h">
-      <FileType>CppForm</FileType>
-    </ClInclude>
     <ClInclude Include="Test.h">
       <FileType>CppForm</FileType>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="LoginForm.resx">
-      <DependentUpon>LoginForm.h</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Test.resx">
       <DependentUpon>Test.h</DependentUpon>
     </EmbeddedResource>

@@ -18,6 +18,7 @@ namespace TalleresJAJERA {
 		Test(void)
 		{
 			InitializeComponent();
+			LoadPiezas();
 			//
 			//TODO: agregar código de constructor aquí
 			//
@@ -35,6 +36,8 @@ namespace TalleresJAJERA {
 			}
 		}
 	private: System::Windows::Forms::DataGridView^ testDataGridView;
+	private:
+		void LoadPiezas();
 	protected:
 
 	private:
@@ -57,16 +60,17 @@ namespace TalleresJAJERA {
 			// testDataGridView
 			// 
 			this->testDataGridView->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->testDataGridView->Location = System::Drawing::Point(52, 58);
+			this->testDataGridView->Location = System::Drawing::Point(55, 66);
 			this->testDataGridView->Name = L"testDataGridView";
-			this->testDataGridView->Size = System::Drawing::Size(549, 279);
+			this->testDataGridView->Size = System::Drawing::Size(656, 275);
 			this->testDataGridView->TabIndex = 0;
+			this->testDataGridView->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &Test::testDataGridView_CellContentClick);
 			// 
 			// Test
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(646, 423);
+			this->ClientSize = System::Drawing::Size(753, 428);
 			this->Controls->Add(this->testDataGridView);
 			this->Name = L"Test";
 			this->Text = L"Test";
@@ -75,5 +79,7 @@ namespace TalleresJAJERA {
 
 		}
 #pragma endregion
+	private: System::Void testDataGridView_CellContentClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
+	}
 	};
 }
