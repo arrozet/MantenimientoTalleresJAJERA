@@ -47,10 +47,14 @@ public:
     {
         try
         {
-            // Crear conexión MySQL
+            // Crear conexión MySQL con las credenciales de AWS
             sql::mysql::MySQL_Driver* driver = sql::mysql::get_mysql_driver_instance();
-            std::unique_ptr<sql::Connection> con(driver->connect("tcp://127.0.0.1:3306", "usuario", "contraseña"));
-            con->setSchema("nombre_base_datos");
+            std::unique_ptr<sql::Connection> con(driver->connect(
+                "tcp://database-minipim.cdwgeayaeh1v.eu-central-1.rds.amazonaws.com:3306", // Host y puerto
+                "grupo07",  // Usuario
+                "FjLWM6DNk6TJDzfV" // Contraseña
+            ));
+            con->setSchema("grupo07DB"); // Base de datos
 
             if (con->isValid())
             {
@@ -62,12 +66,12 @@ public:
                 testDataGridView->Rows->Clear();
                 while (res->next())
                 {
-                    testDataGridView->Rows->Add(gcnew cli::array<String^>{
-                        gcnew String(res->getString("ID").c_str()),
-                            gcnew String(res->getString("NOMBRE").c_str()),
-                            gcnew String(res->getString("FABRICANTE").c_str()),
-                            gcnew String(res->getString("ID_TIPO").c_str())
-                    });
+                    cli::array<String^>^ row = gcnew cli::array<String^>(4);
+                    row[0] = gcnew String(res->getString("ID").c_str());
+                    row[1] = gcnew String(res->getString("NOMBRE").c_str());
+                    row[2] = gcnew String(res->getString("FABRICANTE").c_str());
+                    row[3] = gcnew String(res->getString("ID_TIPO").c_str());
+                    testDataGridView->Rows->Add(row);
                 }
             }
             else
@@ -86,3 +90,11 @@ public:
     }
 };
 
+// Punto de entrada principal de la aplicación
+[STAThreadAttribute]
+int main(array<System::String^>^ args) {
+    Application::EnableVisualStyles();
+    Application::SetCompatibleTextRenderingDefault(false);
+    Application::Run(gcnew Test()); // Lanza el formulario principal "Test"
+    return 0;
+}
