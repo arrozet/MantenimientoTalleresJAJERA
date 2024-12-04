@@ -145,6 +145,9 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Login.resx">
+      <DependentUpon>Login.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Test.resx">
       <DependentUpon>Test.h</DependentUpon>
     </EmbeddedResource>
