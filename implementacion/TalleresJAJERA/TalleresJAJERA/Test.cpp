@@ -42,7 +42,7 @@ public:
     {
         LoadPiezas();
     }
-
+    //ajvnjanvlnad
     void LoadPiezas()
     {
         try

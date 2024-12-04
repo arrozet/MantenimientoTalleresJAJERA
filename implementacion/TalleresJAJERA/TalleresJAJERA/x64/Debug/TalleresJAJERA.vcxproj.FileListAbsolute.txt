@@ -2,3 +2,7 @@ D:\UMA\UMA_CODE\3\1cuatri\GI\trabajo\implementacion\TalleresJAJERA\TalleresJAJER
 D:\UMA\UMA_CODE\3\1cuatri\GI\trabajo\implementacion\TalleresJAJERA\TalleresJAJERA\x64\Debug\TalleresJAJERA.LoginForm.resources
 D:\UMA\UMA_CODE\3\1cuatri\GI\trabajo\implementacion\TalleresJAJERA\TalleresJAJERA\x64\Debug\TalleresJAJERA.Test.resources
 D:\UMA\UMA_CODE\3\1cuatri\GI\trabajo\implementacion\TalleresJAJERA\TalleresJAJERA\x64\Debug\TalleresJAJERA.vcxproj.GenerateResource.cache
+C:\Users\Alejandro\OneDrive - Universidad de Málaga\Escritorio\UNIVERSIDAD\Modelado y Diseño de Software\TRABAJO\MantenimientoTalleresJAJERA\implementacion\TalleresJAJERA\TalleresJAJERA\x64\Debug\TalleresJAJERA.vcxproj.AssemblyReference.cache
+C:\Users\Alejandro\OneDrive - Universidad de Málaga\Escritorio\UNIVERSIDAD\Modelado y Diseño de Software\TRABAJO\MantenimientoTalleresJAJERA\implementacion\TalleresJAJERA\TalleresJAJERA\x64\Debug\TalleresJAJERA.LoginForm.resources
+C:\Users\Alejandro\OneDrive - Universidad de Málaga\Escritorio\UNIVERSIDAD\Modelado y Diseño de Software\TRABAJO\MantenimientoTalleresJAJERA\implementacion\TalleresJAJERA\TalleresJAJERA\x64\Debug\TalleresJAJERA.Test.resources
+C:\Users\Alejandro\OneDrive - Universidad de Málaga\Escritorio\UNIVERSIDAD\Modelado y Diseño de Software\TRABAJO\MantenimientoTalleresJAJERA\implementacion\TalleresJAJERA\TalleresJAJERA\x64\Debug\TalleresJAJERA.vcxproj.GenerateResource.cache
