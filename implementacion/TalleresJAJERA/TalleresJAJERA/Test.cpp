@@ -30,6 +30,9 @@ namespace TalleresJAJERA {
             // Crear el objeto Statement
             Statement* stmt = con->createStatement();
 
+            // Statement para la listBox
+            Statement* stmt2 = con->createStatement();
+
             // Consulta SQL para seleccionar datos de la tabla tPiezas
             ResultSet* res = stmt->executeQuery("SELECT ID, NOMBRE, FABRICANTE, ID_TIPO FROM tPiezas");
 
@@ -50,10 +53,22 @@ namespace TalleresJAJERA {
                 testDataGridView->Rows->Add(row);
             }
 
+            ResultSet* res2 = stmt2->executeQuery("SELECT NOMBRE FROM tTipoPieza");
+
+            while (res2->next()) {
+                  String^ item = gcnew String(res2->getString("NOMBRE").c_str());
+                 lMaterias->Items->Add(item);
+            }
+           
+                
+             
+
             // Liberar recursos
             delete res;
             delete stmt;
             delete con;
+            delete stmt2;
+            delete res2;
 
         }
         catch (SQLException& e) {
@@ -62,6 +77,8 @@ namespace TalleresJAJERA {
         catch (exception& e) {
             MessageBox::Show("Error general: " + gcnew String(e.what()), "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
         }
+
+        
     }
 
     /*
