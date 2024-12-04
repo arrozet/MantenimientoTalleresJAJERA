@@ -47,14 +47,14 @@ public:
     {
         try
         {
-            // Crear conexión MySQL con las credenciales de AWS
+            // Crear conexión MySQL
             sql::mysql::MySQL_Driver* driver = sql::mysql::get_mysql_driver_instance();
             std::unique_ptr<sql::Connection> con(driver->connect(
-                "tcp://database-minipim.cdwgeayaeh1v.eu-central-1.rds.amazonaws.com:3306", // Host y puerto
-                "grupo07",  // Usuario
-                "FjLWM6DNk6TJDzfV" // Contraseña
+                "tcp://database-minipim.cdwgeayaeh1v.eu-central-1.rds.amazonaws.com:3306",
+                "grupo07",
+                "FjLWM6DNk6TJDzfV"
             ));
-            con->setSchema("grupo07DB"); // Base de datos
+            con->setSchema("grupo07DB");
 
             if (con->isValid())
             {
@@ -67,13 +67,10 @@ public:
                 while (res->next())
                 {
                     cli::array<String^>^ row = gcnew cli::array<String^>(4);
-
-                    // Manejar valores NULL correctamente
-                    row[0] = res->isNull("ID") ? "NULL" : gcnew String(res->getString("ID").c_str());
-                    row[1] = res->isNull("NOMBRE") ? "NULL" : gcnew String(res->getString("NOMBRE").c_str());
-                    row[2] = res->isNull("FABRICANTE") ? "NULL" : gcnew String(res->getString("FABRICANTE").c_str());
-                    row[3] = res->isNull("ID_TIPO") ? "NULL" : gcnew String(res->getString("ID_TIPO").c_str());
-
+                    row[0] = res->isNull("ID") ? "" : gcnew String(res->getString("ID").c_str());
+                    row[1] = res->isNull("NOMBRE") ? "" : gcnew String(res->getString("NOMBRE").c_str());
+                    row[2] = res->isNull("FABRICANTE") ? "" : gcnew String(res->getString("FABRICANTE").c_str());
+                    row[3] = res->isNull("ID_TIPO") ? "" : gcnew String(res->getString("ID_TIPO").c_str());
                     testDataGridView->Rows->Add(row);
                 }
             }
@@ -84,17 +81,14 @@ public:
         }
         catch (sql::SQLException& e)
         {
-            String^ errorMessage = "Error al cargar datos:\n" +
-                "Mensaje: " + gcnew String(e.what()) + "\n" +
-                "SQLState: " + gcnew String(e.getSQLState().c_str()) + "\n" +
-                "Código de error: " + e.getErrorCode();
-            MessageBox::Show(errorMessage, "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+            MessageBox::Show("Error al cargar datos: " + gcnew String(e.what()), "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
         }
         catch (std::exception& e)
         {
             MessageBox::Show("Error general: " + gcnew String(e.what()), "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
         }
     }
+
 
 };
 
