@@ -1,0 +1,4 @@
+D:\UMA\UMA_CODE\3\1cuatri\GI\trabajo\implementacion\TalleresJAJERA\TalleresJAJERA\x64\Debug\TalleresJAJERA.vcxproj.AssemblyReference.cache
+D:\UMA\UMA_CODE\3\1cuatri\GI\trabajo\implementacion\TalleresJAJERA\TalleresJAJERA\x64\Debug\TalleresJAJERA.LoginForm.resources
+D:\UMA\UMA_CODE\3\1cuatri\GI\trabajo\implementacion\TalleresJAJERA\TalleresJAJERA\x64\Debug\TalleresJAJERA.Test.resources
+D:\UMA\UMA_CODE\3\1cuatri\GI\trabajo\implementacion\TalleresJAJERA\TalleresJAJERA\x64\Debug\TalleresJAJERA.vcxproj.GenerateResource.cache

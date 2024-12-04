@@ -67,10 +67,13 @@ public:
                 while (res->next())
                 {
                     cli::array<String^>^ row = gcnew cli::array<String^>(4);
-                    row[0] = gcnew String(res->getString("ID").c_str());
-                    row[1] = gcnew String(res->getString("NOMBRE").c_str());
-                    row[2] = gcnew String(res->getString("FABRICANTE").c_str());
-                    row[3] = gcnew String(res->getString("ID_TIPO").c_str());
+
+                    // Manejar valores NULL correctamente
+                    row[0] = res->isNull("ID") ? "NULL" : gcnew String(res->getString("ID").c_str());
+                    row[1] = res->isNull("NOMBRE") ? "NULL" : gcnew String(res->getString("NOMBRE").c_str());
+                    row[2] = res->isNull("FABRICANTE") ? "NULL" : gcnew String(res->getString("FABRICANTE").c_str());
+                    row[3] = res->isNull("ID_TIPO") ? "NULL" : gcnew String(res->getString("ID_TIPO").c_str());
+
                     testDataGridView->Rows->Add(row);
                 }
             }
@@ -81,13 +84,18 @@ public:
         }
         catch (sql::SQLException& e)
         {
-            MessageBox::Show("Error al cargar datos: " + gcnew String(e.what()), "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+            String^ errorMessage = "Error al cargar datos:\n" +
+                "Mensaje: " + gcnew String(e.what()) + "\n" +
+                "SQLState: " + gcnew String(e.getSQLState().c_str()) + "\n" +
+                "Código de error: " + e.getErrorCode();
+            MessageBox::Show(errorMessage, "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
         }
         catch (std::exception& e)
         {
             MessageBox::Show("Error general: " + gcnew String(e.what()), "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
         }
     }
+
 };
 
 // Punto de entrada principal de la aplicación
