@@ -8,20 +8,24 @@
 
 class DBContext {
 private:
-    sql::Driver* driver;
-    std::unique_ptr<sql::Connection> connection;
-    std::string host;
-    std::string user;
-    std::string password;
-    std::string database;
+    sql::Driver* driver;                        // Driver para MySQL.
+    std::unique_ptr<sql::Connection> connection; // Conexión a la base de datos.
 
 public:
-    DBContext(const std::string& host, const std::string& user, const std::string& password, const std::string& database);
+    // Constructor y destructor.
+    DBContext();
     ~DBContext();
 
+    // Métodos de conexión y operaciones sobre la base de datos.
     bool connect();
     bool close();
     std::vector<std::vector<std::string>> select(const std::string& query);
     int execute(const std::string& query);
     int deleteRow(const std::string& table, const std::string& condition);
+
+    // Credenciales estáticas para la base de datos.
+    static std::string Host;
+    static std::string User;
+    static std::string Password;
+    static std::string Database;
 };

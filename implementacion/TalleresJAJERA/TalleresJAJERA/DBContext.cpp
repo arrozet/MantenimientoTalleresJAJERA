@@ -1,13 +1,18 @@
 #include "DBContext.h"
 #include <iostream>
 
-// Constructor: Inicializa los atributos con los parámetros proporcionados.
-// Establece los valores necesarios para conectar a la base de datos.
-DBContext::DBContext(const std::string& host, const std::string& user, const std::string& password, const std::string& database)
-    : host(host), user(user), password(password), database(database), driver(nullptr) {
+// Definición de los atributos estáticos de la clase DBContext.
+std::string DBContext::Host = "database-minipim.cdwgeayaeh1v.eu-central-1.rds.amazonaws.com:3306?auth_plugin=mysql_native_password";
+std::string DBContext::User = "grupo07";
+std::string DBContext::Password = "FjLWM6DNk6TJDzfV";
+std::string DBContext::Database = "grupo07DB";
+
+// Constructor por defecto: inicializa los atributos con las credenciales estáticas.
+DBContext::DBContext()
+    : driver(nullptr) {
 }
 
-// Destructor: Se asegura de cerrar la conexión si está abierta antes de destruir la instancia.
+// Destructor: Cierra la conexión si está abierta antes de destruir la instancia.
 DBContext::~DBContext() {
     if (connection) {
         connection->close();
@@ -15,14 +20,15 @@ DBContext::~DBContext() {
 }
 
 // Método para establecer una conexión con la base de datos.
-// Usa el driver de MySQL para conectarse al host especificado.
-// Devuelve `true` si la conexión fue exitosa, de lo contrario `false`.
+// Usa el driver de MySQL para conectarse al host especificado con las credenciales.
+// Devuelve `true` si la conexión fue exitosa; de lo contrario, `false`.
 bool DBContext::connect() {
     try {
         driver = get_driver_instance(); // Obtiene la instancia del driver de MySQL.
-        connection = std::unique_ptr<sql::Connection>(driver->connect("tcp://" + host, user, password));
-        connection->setSchema(database); // Establece el esquema (base de datos).
-        std::cout << "Conexión establecida con Éxito.\n";
+        connection = std::unique_ptr<sql::Connection>(
+            driver->connect("tcp://" + Host, User, Password)); // Conecta al host con las credenciales.
+        connection->setSchema(Database); // Establece el esquema (base de datos).
+        std::cout << "Conexión establecida con éxito.\n";
         return true;
     }
     catch (sql::SQLException& e) {
@@ -32,7 +38,7 @@ bool DBContext::connect() {
 }
 
 // Método para cerrar la conexión con la base de datos.
-// Devuelve `true` si la operación fue exitosa, de lo contrario `false`.
+// Devuelve `true` si la operación fue exitosa; de lo contrario, `false`.
 bool DBContext::close() {
     try {
         if (connection) {
@@ -63,7 +69,6 @@ std::vector<std::vector<std::string>> DBContext::select(const std::string& query
             }
             results.push_back(row); // Agrega la fila completa al resultado final.
         }
-        //close(); // Comentado, ya que podría ser un comportamiento opcional.
     }
     catch (sql::SQLException& e) {
         std::cerr << "Error en SELECT: " << e.what() << std::endl;
@@ -86,6 +91,7 @@ int DBContext::execute(const std::string& query) {
 
 // Método para eliminar filas de una tabla específica según una condición.
 // Construye la consulta `DELETE` y utiliza el método `execute` para ejecutarla.
+// Devuelve el número de filas afectadas o `-1` si hubo un error.
 int DBContext::deleteRow(const std::string& table, const std::string& condition) {
     try {
         std::string query = "DELETE FROM " + table + " WHERE " + condition; // Construye la consulta.
