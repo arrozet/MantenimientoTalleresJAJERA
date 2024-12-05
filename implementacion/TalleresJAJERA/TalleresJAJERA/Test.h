@@ -89,6 +89,8 @@ namespace TalleresJAJERA {
 			// 
 			// testDataGridView
 			// 
+			this->testDataGridView->AllowUserToAddRows = false;
+			this->testDataGridView->AllowUserToDeleteRows = false;
 			this->testDataGridView->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->testDataGridView->Location = System::Drawing::Point(83, 256);
 			this->testDataGridView->Name = L"testDataGridView";

@@ -32,6 +32,13 @@ namespace TalleresJAJERA {
                 lMaterias->Items->Add(gcnew System::String(tipo.getNombre().c_str()));
             }
 
+            // Configurar columnas del DataGridView
+            testDataGridView->ColumnCount = 4;
+            testDataGridView->Columns[0]->Name = "ID";
+            testDataGridView->Columns[1]->Name = "Nombre";
+            testDataGridView->Columns[2]->Name = "Fabricante";
+            testDataGridView->Columns[3]->Name = "ID_Tipo";
+
             
         }
         catch (std::exception& e) {
@@ -78,12 +85,8 @@ namespace TalleresJAJERA {
         cout << tipoSeleccionado << endl;
         auto piezas = Pieza::ListarPorTipo(tipoSeleccionado);
 
-        // Configurar columnas del DataGridView
-        testDataGridView->ColumnCount = 4;
-        testDataGridView->Columns[0]->Name = "ID";
-        testDataGridView->Columns[1]->Name = "Nombre";
-        testDataGridView->Columns[2]->Name = "Fabricante";
-        testDataGridView->Columns[3]->Name = "ID_Tipo";
+        // Limpiar las filas existentes en el DataGridView
+        testDataGridView->Rows->Clear();
 
         // Agregar filas al DataGridView desde la lista de piezas
         for (const auto& pieza : piezas) {
@@ -95,7 +98,6 @@ namespace TalleresJAJERA {
             testDataGridView->Rows->Add(managedRow);
         }
 
-        
     }
 
 
