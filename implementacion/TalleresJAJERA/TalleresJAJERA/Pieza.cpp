@@ -44,12 +44,21 @@ vector<Pieza> Pieza::ListarTodas() {
 }
 
 // Listar piezas por tipo
-vector<Pieza> Pieza::ListarPorTipo(const string& idTipo) {
+vector<Pieza> Pieza::ListarPorTipo(const string& nombreTipo) {
     vector<Pieza> piezas;
+    // Consulta para obtener el ID_TIPO basado en el nombre del tipo
+    auto tipoRes = db.select("SELECT ID_TIPO FROM tTipoPieza WHERE NOMBRE = '" + nombreTipo + "'");
+    if (tipoRes.empty()) {
+        throw runtime_error("No se encontró el tipo de pieza con el nombre: " + nombreTipo);
+    }
+    string idTipo = tipoRes[0][0]; // ID_TIPO encontrado
+
+    // Consulta para obtener las piezas con el ID_TIPO
     auto res = db.select("SELECT ID FROM tPiezas WHERE ID_TIPO = '" + idTipo + "'");
     for (const auto& row : res) {
-        piezas.emplace_back(stoi(row[0]));
+        piezas.emplace_back(stoi(row[0])); // Crear objetos Pieza con el ID
     }
+
     return piezas;
 }
 

@@ -75,6 +75,7 @@ namespace TalleresJAJERA {
     void Test::lMaterias_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
         // Obtener la lista de piezas usando la clase Pieza
         auto tipoSeleccionado = marshal_as<string>(lMaterias->SelectedItem->ToString());
+        cout << tipoSeleccionado << endl;
         auto piezas = Pieza::ListarPorTipo(tipoSeleccionado);
 
         // Configurar columnas del DataGridView
