@@ -6,10 +6,13 @@
 #include <vector>
 #include <string>
 
+// Habilitamos el uso del namespace std
+using namespace std;
+
 class DBContext {
 private:
     sql::Driver* driver;                        // Driver para MySQL.
-    std::unique_ptr<sql::Connection> connection; // Conexión a la base de datos.
+    unique_ptr<sql::Connection> connection;     // Conexión a la base de datos.
 
 public:
     // Constructor y destructor.
@@ -19,13 +22,13 @@ public:
     // Métodos de conexión y operaciones sobre la base de datos.
     bool connect();
     bool close();
-    std::vector<std::vector<std::string>> select(const std::string& query);
-    int execute(const std::string& query);
-    int deleteRow(const std::string& table, const std::string& condition);
+    vector<vector<string>> select(const string& query);
+    int execute(const string& query);
+    int deleteRow(const string& table, const string& condition);
 
     // Credenciales estáticas para la base de datos.
-    static std::string Host;
-    static std::string User;
-    static std::string Password;
-    static std::string Database;
+    static string Host;
+    static string User;
+    static string Password;
+    static string Database;
 };

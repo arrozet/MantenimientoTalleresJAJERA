@@ -1,17 +1,21 @@
 #include "DBContext.h"
 #include <iostream>
 
+
+// Habilitamos el uso del namespace std
+using namespace std;
+
 // Definición de los atributos estáticos de la clase DBContext.
-std::string DBContext::Host = "database-minipim.cdwgeayaeh1v.eu-central-1.rds.amazonaws.com:3306?auth_plugin=mysql_native_password";
-std::string DBContext::User = "grupo07";
-std::string DBContext::Password = "FjLWM6DNk6TJDzfV";
-std::string DBContext::Database = "grupo07DB";
+string DBContext::Host = "database-minipim.cdwgeayaeh1v.eu-central-1.rds.amazonaws.com:3306";
+string DBContext::User = "grupo07";
+string DBContext::Password = "FjLWM6DNk6TJDzfV";
+string DBContext::Database = "grupo07DB";
 
 // Constructor por defecto: inicializa los atributos con las credenciales estáticas.
 DBContext::DBContext()
     : driver(nullptr) {
     if (!connect()) { // Llama a connect() dentro del constructor
-        throw std::runtime_error("No se pudo conectar a la base de datos al inicializar DBContext");
+        throw runtime_error("No se pudo conectar a la base de datos al inicializar DBContext");
     }
 }
 
@@ -28,14 +32,14 @@ DBContext::~DBContext() {
 bool DBContext::connect() {
     try {
         driver = get_driver_instance(); // Obtiene la instancia del driver de MySQL.
-        connection = std::unique_ptr<sql::Connection>(
+        connection = unique_ptr<sql::Connection>(
             driver->connect("tcp://" + Host, User, Password)); // Conecta al host con las credenciales.
         connection->setSchema(Database); // Establece el esquema (base de datos).
-        std::cout << "Conexión establecida con éxito.\n";
+        cout << "Conexión establecida con éxito.\n";
         return true;
     }
     catch (sql::SQLException& e) {
-        std::cerr << "Error de conexión: " << e.what() << std::endl;
+        cerr << "Error de conexión: " << e.what() << endl;
         return false;
     }
 }
@@ -46,27 +50,27 @@ bool DBContext::close() {
     try {
         if (connection) {
             connection->close(); // Cierra la conexión si está abierta.
-            std::cout << "Conexión cerrada exitosamente.\n";
+            cout << "Conexión cerrada exitosamente.\n";
         }
         return true;
     }
     catch (sql::SQLException& e) {
-        std::cerr << "Error al cerrar la conexión: " << e.what() << std::endl;
+        cerr << "Error al cerrar la conexión: " << e.what() << endl;
         return false;
     }
 }
 
 // Método para realizar una consulta `SELECT` y devolver los resultados.
 // Devuelve un vector de vectores, donde cada sub-vector representa una fila de resultados.
-std::vector<std::vector<std::string>> DBContext::select(const std::string& query) {
-    std::vector<std::vector<std::string>> results;
+vector<vector<string>> DBContext::select(const string& query) {
+    vector<vector<string>> results;
     try {
-        std::unique_ptr<sql::Statement> stmt(connection->createStatement()); // Crea un statement.
-        std::unique_ptr<sql::ResultSet> res(stmt->executeQuery(query)); // Ejecuta la consulta.
+        unique_ptr<sql::Statement> stmt(connection->createStatement()); // Crea un statement.
+        unique_ptr<sql::ResultSet> res(stmt->executeQuery(query)); // Ejecuta la consulta.
 
         // Itera sobre los resultados de la consulta.
         while (res->next()) {
-            std::vector<std::string> row;
+            vector<string> row;
             for (int i = 1; i <= res->getMetaData()->getColumnCount(); i++) {
                 row.push_back(res->getString(i)); // Agrega cada columna al vector.
             }
@@ -74,20 +78,20 @@ std::vector<std::vector<std::string>> DBContext::select(const std::string& query
         }
     }
     catch (sql::SQLException& e) {
-        std::cerr << "Error en SELECT: " << e.what() << std::endl;
+        cerr << "Error en SELECT: " << e.what() << endl;
     }
     return results; // Devuelve los resultados obtenidos.
 }
 
 // Método para ejecutar una consulta que no devuelva resultados (`INSERT`, `UPDATE`, etc.).
 // Devuelve el número de filas afectadas o `-1` si hubo un error.
-int DBContext::execute(const std::string& query) {
+int DBContext::execute(const string& query) {
     try {
-        std::unique_ptr<sql::Statement> stmt(connection->createStatement()); // Crea un statement.
+        unique_ptr<sql::Statement> stmt(connection->createStatement()); // Crea un statement.
         return stmt->executeUpdate(query); // Ejecuta la consulta.
     }
     catch (sql::SQLException& e) {
-        std::cerr << "Error en la ejecución de consulta: " << e.what() << std::endl;
+        cerr << "Error en la ejecución de consulta: " << e.what() << endl;
         return -1; // Indica que hubo un error.
     }
 }
@@ -95,13 +99,13 @@ int DBContext::execute(const std::string& query) {
 // Método para eliminar filas de una tabla específica según una condición.
 // Construye la consulta `DELETE` y utiliza el método `execute` para ejecutarla.
 // Devuelve el número de filas afectadas o `-1` si hubo un error.
-int DBContext::deleteRow(const std::string& table, const std::string& condition) {
+int DBContext::deleteRow(const string& table, const string& condition) {
     try {
-        std::string query = "DELETE FROM " + table + " WHERE " + condition; // Construye la consulta.
+        string query = "DELETE FROM " + table + " WHERE " + condition; // Construye la consulta.
         return execute(query); // Ejecuta la consulta usando el método `execute`.
     }
     catch (sql::SQLException& e) {
-        std::cerr << "Error al ejecutar DELETE: " << e.what() << std::endl;
+        cerr << "Error al ejecutar DELETE: " << e.what() << endl;
         return -1; // Indica que hubo un error.
     }
 }

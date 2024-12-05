@@ -3,37 +3,40 @@
 #include <vector>
 #include "DBContext.h"
 
+// Habilitamos el uso del namespace std
+using namespace std;
+
 class Pieza {
 private:
     int id;
-    std::string nombre;
-    std::string fabricante;
-    std::string idTipo;
+    string nombre;
+    string fabricante;
+    string idTipo;
 
 public:
     // Constructores
     Pieza(int id);
-    Pieza(const std::string& nombre, const std::string& fabricante, const std::string& idTipo);
+    Pieza(const string& nombre, const string& fabricante, const string& idTipo);
 
     // Métodos estáticos
-    static std::vector<Pieza> ListarTodas();
-    static std::vector<Pieza> ListarPorTipo(const std::string& idTipo);
+    static vector<Pieza> ListarTodas();
+    static vector<Pieza> ListarPorTipo(const string& idTipo);
 
     // Getters y Setters
     int getId() const;
 
-    std::string getNombre() const;
-    void setNombre(const std::string& nombre);
+    string getNombre() const;
+    void setNombre(const string& nombre);
 
-    std::string getFabricante() const;
-    void setFabricante(const std::string& fabricante);
+    string getFabricante() const;
+    void setFabricante(const string& fabricante);
 
-    std::string getIdTipo() const;
-    void setIdTipo(const std::string& idTipo);
+    string getIdTipo() const;
+    void setIdTipo(const string& idTipo);
 
     // Métodos de instancia
     void borrar();
-    std::string toString() const;
+    string toString() const;
 
     // Sobrecarga de operadores
     bool operator==(const Pieza& other) const;
