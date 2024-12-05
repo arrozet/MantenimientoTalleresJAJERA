@@ -35,6 +35,7 @@ bool DBContext::connect() {
         connection = unique_ptr<sql::Connection>(
             driver->connect("tcp://" + Host, User, Password)); // Conecta al host con las credenciales.
         connection->setSchema(Database); // Establece el esquema (base de datos).
+        
         cout << "Conexión establecida con éxito.\n";
         return true;
     }

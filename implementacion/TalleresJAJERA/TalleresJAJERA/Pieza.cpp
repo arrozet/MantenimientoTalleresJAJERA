@@ -94,7 +94,7 @@ void Pieza::borrar() {
 
 // Representación en cadena
 string Pieza::toString() const {
-    return "Pieza: " + nombre + " (" + fabricante + ")";
+    return nombre;
 }
 
 // Comparación
