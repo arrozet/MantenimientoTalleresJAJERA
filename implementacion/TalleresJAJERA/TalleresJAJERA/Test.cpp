@@ -29,7 +29,9 @@ namespace TalleresJAJERA {
 
             // Llenar el ListBox con los nombres
             for (const auto& tipo : tipoPiezas) {
-                lMaterias->Items->Add(gcnew System::String(tipo.getNombre().c_str()));
+                // Convertir el nombre usando la función estática ConvertToUTF8
+                auto managedString = DBContext::ConvertToUTF8(tipo.getNombre());
+                lMaterias->Items->Add(managedString);
             }
 
             // Configurar columnas del DataGridView
@@ -49,10 +51,10 @@ namespace TalleresJAJERA {
     Void Test::bLimpiar_Click(System::Object^ sender, System::EventArgs^ e) {
         try {
             // Vaciar el contenido de la listBox 
-            lMaterias->SelectedItem = nullptr;
+            lMaterias->ClearSelected();
 
             // Deseleccionar cualquier objeto del DataGridView 
-            testDataGridView->ClearSelection();
+            testDataGridView->Rows->Clear();
 
             // Eliminar el texto de los textBox 
             tNombre->Text = "";
@@ -81,7 +83,7 @@ namespace TalleresJAJERA {
 
     void Test::lMaterias_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
         // Obtener la lista de piezas usando la clase Pieza
-        auto tipoSeleccionado = marshal_as<string>(lMaterias->SelectedItem->ToString());
+        auto tipoSeleccionado = DBContext::ConvertFromUTF8(lMaterias->SelectedItem->ToString());
         cout << tipoSeleccionado << endl;
         auto piezas = Pieza::ListarPorTipo(tipoSeleccionado);
 
@@ -91,10 +93,13 @@ namespace TalleresJAJERA {
         // Agregar filas al DataGridView desde la lista de piezas
         for (const auto& pieza : piezas) {
             cli::array<String^>^ managedRow = gcnew cli::array<String^>(4);
+            // Convertir a System::String usando ConvertToUTF8 para cada campo
             managedRow[0] = gcnew String(std::to_string(pieza.getId()).c_str());
-            managedRow[1] = gcnew String(pieza.toString().c_str());
-            managedRow[2] = gcnew String(pieza.getFabricante().c_str());
-            managedRow[3] = gcnew String(pieza.getIdTipo().c_str());
+
+            // Convertir a System::String para campos con caracteres especiales (tildes)
+            managedRow[1] = DBContext::ConvertToUTF8(pieza.toString());  // Nombre de la pieza
+            managedRow[2] = DBContext::ConvertToUTF8(pieza.getFabricante());  // Fabricante
+            managedRow[3] = DBContext::ConvertToUTF8(pieza.getIdTipo());  // Tipo de pieza
             testDataGridView->Rows->Add(managedRow);
         }
 

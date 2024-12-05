@@ -1,5 +1,7 @@
 #include "DBContext.h"
 #include <iostream>
+#include <msclr/marshal_cppstd.h>
+using namespace msclr::interop;
 
 
 // Habilitamos el uso del namespace std
@@ -26,6 +28,33 @@ DBContext::~DBContext() {
     }
 }
 
+System::String^ DBContext::ConvertToUTF8(const std::string& input) {
+    // Crear un array de bytes del tamaño adecuado
+    auto bytes = gcnew cli::array<unsigned char>(input.size());
+
+    // Llenar el array de bytes con los caracteres de la cadena
+    for (size_t i = 0; i < input.size(); ++i) {
+        bytes[i] = static_cast<unsigned char>(input[i]);
+    }
+
+    // Convertir el array de bytes a un System::String usando UTF-8
+    return System::Text::Encoding::UTF8->GetString(bytes);
+}
+
+string DBContext::ConvertFromUTF8(System::String^ input) {
+    // Convertir System::String^ (UTF-16) a un arreglo de bytes en UTF-8
+    auto bytes = System::Text::Encoding::UTF8->GetBytes(input);
+
+    // Crear un std::string desde los bytes
+    std::string result(bytes->Length, '\0');
+    for (int i = 0; i < bytes->Length; ++i) {
+        result[i] = static_cast<char>(bytes[i]);
+    }
+
+    return result;
+}
+
+
 // Método para establecer una conexión con la base de datos.
 // Usa el driver de MySQL para conectarse al host especificado con las credenciales.
 // Devuelve `true` si la conexión fue exitosa; de lo contrario, `false`.
@@ -36,6 +65,11 @@ bool DBContext::connect() {
             driver->connect("tcp://" + Host, User, Password)); // Conecta al host con las credenciales.
         connection->setSchema(Database); // Establece el esquema (base de datos).
         
+        // Configura la conexión para usar UTF-8
+        unique_ptr<sql::Statement> stmt(connection->createStatement());
+        stmt->execute("SET NAMES 'utf8mb4'");
+        stmt->execute("SET CHARACTER SET 'utf8mb4'");
+
         cout << "Conexión establecida con éxito.\n";
         return true;
     }

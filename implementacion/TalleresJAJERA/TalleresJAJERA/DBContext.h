@@ -25,6 +25,10 @@ public:
     vector<vector<string>> select(const string& query);
     int execute(const string& query);
     int deleteRow(const string& table, const string& condition);
+    // Función estática para convertir un std::string a System::String con codificación UTF-8
+    static System::String^ ConvertToUTF8(const std::string& input);
+    // Función estática para convertir un System::String (UTF-8) a std::string
+    static std::string ConvertFromUTF8(System::String^ input);
 
     // Credenciales estáticas para la base de datos.
     static string Host;

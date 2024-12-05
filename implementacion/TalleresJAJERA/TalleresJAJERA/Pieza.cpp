@@ -46,20 +46,28 @@ vector<Pieza> Pieza::ListarTodas() {
 // Listar piezas por tipo
 vector<Pieza> Pieza::ListarPorTipo(const string& nombreTipo) {
     vector<Pieza> piezas;
-    // Consulta para obtener el ID_TIPO basado en el nombre del tipo
-    auto tipoRes = db.select("SELECT ID_TIPO FROM tTipoPieza WHERE NOMBRE = '" + nombreTipo + "'");
-    if (tipoRes.empty()) {
-        throw runtime_error("No se encontró el tipo de pieza con el nombre: " + nombreTipo);
-    }
-    string idTipo = tipoRes[0][0]; // ID_TIPO encontrado
 
-    // Consulta para obtener las piezas con el ID_TIPO
-    auto res = db.select("SELECT ID FROM tPiezas WHERE ID_TIPO = '" + idTipo + "'");
+    // Consulta combinada para obtener directamente las piezas relacionadas con el nombre del tipo
+    auto res = db.select(
+        "SELECT p.ID "
+        "FROM tPiezas p "
+        "INNER JOIN tTipoPieza tp ON p.ID_TIPO = tp.ID_TIPO "
+        "WHERE tp.NOMBRE = '" + nombreTipo + "'"
+    );
+
+    /*
+    if (res.empty()) {
+        throw runtime_error("No se encontraron piezas para el tipo: " + nombreTipo);
+    }
+    */
+
+    // Crear objetos Pieza a partir de los resultados
     for (const auto& row : res) {
         piezas.emplace_back(stoi(row[0])); // Crear objetos Pieza con el ID
     }
 
     return piezas;
+
 }
 
 // Setters con actualización en la base de datos
