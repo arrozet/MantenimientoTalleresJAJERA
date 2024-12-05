@@ -1,5 +1,11 @@
 #pragma once
-
+#include "Usuario.h"
+#include "Rol.h"
+#include "Permiso.h"
+#include <string>
+#include "DBContext.h"
+#include <vector>
+using namespace std;
 namespace TalleresJAJERA {
 
 	using namespace System;
@@ -14,10 +20,12 @@ namespace TalleresJAJERA {
 	/// </summary>
 	public ref class Login : public System::Windows::Forms::Form
 	{
+
 	public:
 		Login(void)
 		{
 			InitializeComponent();
+			this->bOk->Click += gcnew System::EventHandler(this, &Login::bOk_Click);
 			//
 			//TODO: agregar código de constructor aquí
 			//
@@ -116,6 +124,7 @@ namespace TalleresJAJERA {
 			this->bOk->TabIndex = 5;
 			this->bOk->Text = L"OK";
 			this->bOk->UseVisualStyleBackColor = true;
+			this->bOk->Click += gcnew System::EventHandler(this, &Login::bOk_Click);
 			// 
 			// bCancel
 			// 
@@ -144,6 +153,11 @@ namespace TalleresJAJERA {
 			this->PerformLayout();
 
 		}
+
 #pragma endregion
+private: bool autenticar(const std::string& nombre, const std::string& password);
+private: Usuario obtenerUsuario(const std::string& nombre);
+public: System::Void bOk_Click(System::Object^ sender, System::EventArgs^ e);
 	};
 }
+

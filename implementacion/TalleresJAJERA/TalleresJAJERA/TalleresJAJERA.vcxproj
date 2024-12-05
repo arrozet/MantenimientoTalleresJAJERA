@@ -134,21 +134,27 @@
     <ClCompile Include="DBContext.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Permiso.cpp" />
     <ClCompile Include="Pieza.cpp" />
+    <ClCompile Include="Rol.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="TipoPieza.cpp" />
+    <ClCompile Include="Usuario.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DBContext.h" />
     <ClInclude Include="Login.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Permiso.h" />
     <ClInclude Include="Pieza.h" />
+    <ClInclude Include="Rol.h" />
     <ClInclude Include="Test.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="TipoPieza.h" />
+    <ClInclude Include="Usuario.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Login.resx">
