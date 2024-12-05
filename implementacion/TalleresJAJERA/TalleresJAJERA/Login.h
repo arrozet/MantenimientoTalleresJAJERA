@@ -154,7 +154,7 @@ namespace TalleresJAJERA {
 		}
 
 		#pragma endregion
-		private: bool autenticar(const std::string& nombre, const std::string& password);
+		private: std::string autenticar(const std::string& nombre, const std::string& password);
 		public: System::Void bOk_Click(System::Object^ sender, System::EventArgs^ e);
 	};
 }

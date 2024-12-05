@@ -1,5 +1,6 @@
 #include "Test.h"
 #include "DBContext.h"
+#include "Permiso.h"
 #include "Pieza.h"
 #include "TipoPieza.h"
 #include <mysql_driver.h>
@@ -17,6 +18,43 @@ using namespace sql;
 using namespace msclr::interop;
 
 namespace TalleresJAJERA {
+
+
+    void Test::gestionarPermisos(std::string& rol) {
+        try {
+            // Obtener los permisos para el rol específico
+            auto permisos = Permiso::ListarPorRol(rol);
+
+            // Habilitar o deshabilitar controles según los permisos
+            for (const auto& permiso : permisos) {
+                if (permiso.getPantalla() == "TIPOPIEZA") {
+                    // Si el rol tiene acceso a TIPOPIEZA, habilitar el ListBox
+                    lMaterias->Enabled = permiso.getAcceso();
+                    //lMaterias->Visible = permiso.getAcceso();  // Si no tiene acceso, ocultamos el ListBox
+
+                    // Si tiene permiso de modificación, permitir la modificación de los tipos de pieza
+                    if (permiso.getModificacion()) {
+                        // Aquí podrías habilitar un botón o realizar alguna acción de modificación en el ListBox
+                    }
+                }
+                else if (permiso.getPantalla() == "PIEZAS") {
+                    // Si el rol tiene acceso a PIEZAS, habilitar el DataGridView
+                    testDataGridView->Enabled = permiso.getAcceso();
+                    //testDataGridView->Visible = permiso.getAcceso();  // Si no tiene acceso, ocultamos el DataGridView
+                    tNombre->ReadOnly = !permiso.getModificacion(); // Made by ROZ (no he usado chatgpt, epico)
+                    tFabricante->ReadOnly = !permiso.getModificacion();
+                    bInsertar->Enabled = permiso.getModificacion();
+                    bActualizar->Enabled = permiso.getModificacion();
+                    bEliminar->Enabled = permiso.getModificacion();
+                    
+                }
+            }
+        }
+        catch (const std::exception& e) {
+            // Manejo de errores si algo sale mal
+            MessageBox::Show("Error al gestionar los permisos: " + gcnew String(e.what()), "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+        }
+    }
 
     void Test::LoadPiezas()
     {

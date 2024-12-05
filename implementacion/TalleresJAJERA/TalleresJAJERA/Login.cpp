@@ -21,19 +21,23 @@ using namespace msclr::interop;
 namespace TalleresJAJERA {
 
 
-    bool Login::autenticar(const std::string& nombre, const std::string& password) {
+    std::string Login::autenticar(const std::string& nombre, const std::string& password) {
         try {
             // Buscar al usuario en la base de datos
             Usuario usuario = Usuario(nombre);
+
+            // Verificar si la contraseña es correcta
             if (usuario.getPassword() == password) {
-                return true; // Contraseña correcta
+                return usuario.getRolName();  // Devolver el rol si la contraseña es correcta
             }
-            return false; // Contraseña incorrecta
+            else {
+                return "error";  // Contraseña incorrecta, retornar una cadena vacía
+            }
         }
         catch (const std::exception& e) {
-            // Si no se encuentra el usuario
+            // Si no se encuentra el usuario o hay un error
             MessageBox::Show("Error de autenticación: " + gcnew String(e.what()));
-            return false;
+            return ""; // Error en la autenticación, retornar cadena vacía
         }
     }
     
@@ -52,13 +56,14 @@ namespace TalleresJAJERA {
             // Intentar obtener el usuario de la base de datos
 
             // Verificar si la contraseña es correcta
-            if (autenticar(nombreUsuario,contrasena)) {
+            string rol = autenticar(nombreUsuario, contrasena);
+            if (rol != "error") {
                 // Si el usuario es autenticado correctamente, puedes continuar con el siguiente paso (ej. redirigir a otra ventana)
                 MessageBox::Show("Login exitoso", "Bienvenido", MessageBoxButtons::OK, MessageBoxIcon::Information);
 
                 // Llamar al siguiente paso del login, como abrir la siguiente ventana
                 this->Hide();
-                Test^ testForm = gcnew Test();
+                Test^ testForm = gcnew Test(rol);
                 testForm->ShowDialog();
             }
         }

@@ -17,11 +17,12 @@ namespace TalleresJAJERA {
 	public ref class Test : public System::Windows::Forms::Form
 	{
 	public:
-		Test(void)
+		Test(std::string& rol)
 		{
 			
 			InitializeComponent();
 			LoadPiezas();
+			gestionarPermisos(rol);
 
 			//Se encarga de ocupar todo el recuadro
 			testDataGridView->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::Fill;
@@ -61,6 +62,7 @@ namespace TalleresJAJERA {
 	private:
 		void LoadPiezas();
 		void refreshDataGridForSelectedType(const std::string& tipoSeleccionado);
+		void gestionarPermisos(std::string& rol);
 	protected:
 
 	private:
