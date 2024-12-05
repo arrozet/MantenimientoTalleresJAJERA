@@ -2,17 +2,11 @@
 #include <iostream>
 #include <stdexcept>
 
-/**/
-// Variables globales definidas
-std::string BDServer = "database-minipim.cdwgeayaeh1v.eu-central-1.rds.amazonaws.com:3306?auth_plugin=mysql_native_password";
-std::string User = "grupo07";
-std::string Password = "FjLWM6DNk6TJDzfV";
-std::string BDName = "grupo07DB";
+// Define el DBContext estático
+DBContext Pieza::db;
 
 // Constructor para cargar una pieza existente
 Pieza::Pieza(int id) {
-    DBContext db;
-    db.connect();
     auto res = db.select("SELECT * FROM tPiezas WHERE ID = " + std::to_string(id));
     if (res.empty()) {
         throw std::runtime_error("Pieza no encontrada");
@@ -25,10 +19,11 @@ Pieza::Pieza(int id) {
 
 // Constructor para insertar una nueva pieza
 Pieza::Pieza(const std::string& nombre, const std::string& fabricante, const std::string& idTipo) {
-    DBContext db;
-    db.connect();
     db.execute("INSERT INTO tPiezas (NOMBRE, FABRICANTE, ID_TIPO) VALUES ('" + nombre + "', '" + fabricante + "', '" + idTipo + "')");
     auto res = db.select("SELECT LAST_INSERT_ID()");
+    if (res.empty()) {
+        throw std::runtime_error("No se pudo obtener el ID de la nueva pieza");
+    }
     this->id = std::stoi(res[0][0]);
     this->nombre = nombre;
     this->fabricante = fabricante;
@@ -37,8 +32,6 @@ Pieza::Pieza(const std::string& nombre, const std::string& fabricante, const std
 
 // Listar todas las piezas
 std::vector<Pieza> Pieza::ListarTodas() {
-    DBContext db;
-    db.connect();
     std::vector<Pieza> piezas;
     auto res = db.select("SELECT ID FROM tPiezas");
     for (const auto& row : res) {
@@ -49,8 +42,6 @@ std::vector<Pieza> Pieza::ListarTodas() {
 
 // Listar piezas por tipo
 std::vector<Pieza> Pieza::ListarPorTipo(const std::string& idTipo) {
-    DBContext db;
-    db.connect();
     std::vector<Pieza> piezas;
     auto res = db.select("SELECT ID FROM tPiezas WHERE ID_TIPO = '" + idTipo + "'");
     for (const auto& row : res) {
@@ -61,22 +52,16 @@ std::vector<Pieza> Pieza::ListarPorTipo(const std::string& idTipo) {
 
 // Setters con actualización en la base de datos
 void Pieza::setNombre(const std::string& nombre) {
-    DBContext db;
-    db.connect();
     db.execute("UPDATE tPiezas SET NOMBRE = '" + nombre + "' WHERE ID = " + std::to_string(this->id));
     this->nombre = nombre;
 }
 
 void Pieza::setFabricante(const std::string& fabricante) {
-    DBContext db;
-    db.connect();
     db.execute("UPDATE tPiezas SET FABRICANTE = '" + fabricante + "' WHERE ID = " + std::to_string(this->id));
     this->fabricante = fabricante;
 }
 
 void Pieza::setIdTipo(const std::string& idTipo) {
-    DBContext db;
-    db.connect();
     db.execute("UPDATE tPiezas SET ID_TIPO = '" + idTipo + "' WHERE ID = " + std::to_string(this->id));
     this->idTipo = idTipo;
 }
@@ -86,7 +71,6 @@ int Pieza::getId() const {
     return id;
 }
 
-
 std::string Pieza::getNombre() const {
     return nombre;
 }
@@ -95,15 +79,12 @@ std::string Pieza::getFabricante() const {
     return fabricante;
 }
 
-
 std::string Pieza::getIdTipo() const {
     return idTipo;
 }
 
-
 // Borrar pieza
 void Pieza::borrar() {
-    DBContext db;
     db.execute("DELETE FROM tPiezas WHERE ID = " + std::to_string(this->id));
     this->id = -1;
 }

@@ -37,6 +37,7 @@ public:
 
     // Sobrecarga de operadores
     bool operator==(const Pieza& other) const;
+
+    // DBContext estático para compartir la conexión
+    static DBContext db;
 };
-
-

@@ -10,6 +10,9 @@ std::string DBContext::Database = "grupo07DB";
 // Constructor por defecto: inicializa los atributos con las credenciales estáticas.
 DBContext::DBContext()
     : driver(nullptr) {
+    if (!connect()) { // Llama a connect() dentro del constructor
+        throw std::runtime_error("No se pudo conectar a la base de datos al inicializar DBContext");
+    }
 }
 
 // Destructor: Cierra la conexión si está abierta antes de destruir la instancia.
