@@ -20,6 +20,7 @@ public:
     ~DBContext();
 
     bool connect();
+    bool close();
     std::vector<std::vector<std::string>> select(const std::string& query);
     int execute(const std::string& query);
     int deleteRow(const std::string& table, const std::string& condition);

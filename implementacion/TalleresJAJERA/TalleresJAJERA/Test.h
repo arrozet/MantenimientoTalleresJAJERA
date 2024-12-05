@@ -243,36 +243,8 @@ namespace TalleresJAJERA {
 
 
 
-private: System::Void bLimpiar_Click(System::Object^ sender, System::EventArgs^ e) {
-	try {
-		// Vaciar el contenido de la listBox 
-		lMaterias->SelectedItem = nullptr;
+private: System::Void bLimpiar_Click(System::Object^ sender, System::EventArgs^ e);
 
-		// Deseleccionar cualquier objeto del DataGridView 
-		testDataGridView->ClearSelection();
-
-		// Eliminar el texto de los textBox 
-		tNombre->Text = "";
-		tFabricante->Text = "";
-	}
-	catch (System::Exception^ ex) {
-		MessageBox::Show("Ocurrió un error en Limpiar: " + ex->Message);
-	}
-
-}
-private: System::Void testDataGridView_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
-	try {
-		tNombre->Text = testDataGridView->SelectedRows[0]->Cells["Nombre"]->Value->ToString();
-		tFabricante->Text = testDataGridView->SelectedRows[0]->Cells["Fabricante"]->Value->ToString();
-		//AQUI HAY QUE PONER QUE SE SELECCIONE
-		// DE LA LISTBOX EL NOMBRE DEL TIPOPRODUCTO SELECCIONADO (IDPRODUCTO)
-		
-
-	}
-	catch (System::Exception^ ex) {
-		MessageBox::Show("Ocurrió un error al hacer click en el dataGridView: " + ex->Message);
-	}
-
-}
+private: System::Void testDataGridView_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e);
 };
 }

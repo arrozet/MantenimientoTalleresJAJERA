@@ -21,7 +21,6 @@ public:
 
     // Getters y Setters
     int getId() const;
-    void setId(int id);
 
     std::string getNombre() const;
     void setNombre(const std::string& nombre);

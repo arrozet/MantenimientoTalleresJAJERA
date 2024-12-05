@@ -16,7 +16,7 @@ bool DBContext::connect() {
         driver = get_driver_instance();
         connection = std::unique_ptr<sql::Connection>(driver->connect("tcp://" + host, user, password));
         connection->setSchema(database);
-        std::cout << "Conexión establecida con éxito.\n";
+        std::cout << "Conexión establecida con Éxito.\n";
         return true;
     }
     catch (sql::SQLException& e) {
@@ -25,9 +25,25 @@ bool DBContext::connect() {
     }
 }
 
+bool DBContext::close() {
+    try {
+        if (connection) {
+            connection->close();
+            std::cout << "Conexión cerrada exitosamente.\n";
+        }
+        return true;
+    }
+    catch (sql::SQLException& e) {
+        std::cerr << "Error al cerrar la conexión: " << e.what() << std::endl;
+        return false;
+    }
+}
+
+
 std::vector<std::vector<std::string>> DBContext::select(const std::string& query) {
     std::vector<std::vector<std::string>> results;
     try {
+        
         std::unique_ptr<sql::Statement> stmt(connection->createStatement());
         std::unique_ptr<sql::ResultSet> res(stmt->executeQuery(query));
 
@@ -38,6 +54,7 @@ std::vector<std::vector<std::string>> DBContext::select(const std::string& query
             }
             results.push_back(row);
         }
+        //close();
     }
     catch (sql::SQLException& e) {
         std::cerr << "Error en SELECT: " << e.what() << std::endl;
@@ -47,8 +64,11 @@ std::vector<std::vector<std::string>> DBContext::select(const std::string& query
 
 int DBContext::execute(const std::string& query) {
     try {
+        //connect();
         std::unique_ptr<sql::Statement> stmt(connection->createStatement());
+        //close();
         return stmt->executeUpdate(query);
+        
     }
     catch (sql::SQLException& e) {
         std::cerr << "Error en la ejecución de consulta: " << e.what() << std::endl;
@@ -58,7 +78,9 @@ int DBContext::execute(const std::string& query) {
 
 int DBContext::deleteRow(const std::string& table, const std::string& condition) {
     try {
+        //connect();
         std::string query = "DELETE FROM " + table + " WHERE " + condition;
+        //close();
         return execute(query);
     }
     catch (sql::SQLException& e) {

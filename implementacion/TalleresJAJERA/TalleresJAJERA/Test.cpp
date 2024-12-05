@@ -1,5 +1,6 @@
 #include "Test.h"
 #include "DBContext.h"
+#include "Pieza.h"
 #include <mysql_driver.h>
 #include <mysql_connection.h>
 #include <cppconn/statement.h>
@@ -17,52 +18,68 @@ namespace TalleresJAJERA {
     void Test::LoadPiezas()
     {
         try {
-            // Crear una instancia de DBContext
-            DBContext db("database-minipim.cdwgeayaeh1v.eu-central-1.rds.amazonaws.com:3306?auth_plugin=mysql_native_password",
-                "grupo07",
-                "FjLWM6DNk6TJDzfV",
-                "grupo07DB");
+            // Obtener la lista de piezas usando la clase Pieza
+            auto piezas = Pieza::ListarTodas();
 
-            if (db.connect()) {
-                // Consulta SQL para seleccionar datos de la tabla tPiezas
-                auto res = db.select("SELECT ID, NOMBRE, FABRICANTE, ID_TIPO FROM tPiezas");
+            // Configurar columnas del DataGridView
+            testDataGridView->ColumnCount = 4;
+            testDataGridView->Columns[0]->Name = "ID";
+            testDataGridView->Columns[1]->Name = "Nombre";
+            testDataGridView->Columns[2]->Name = "Fabricante";
+            testDataGridView->Columns[3]->Name = "ID_Tipo";
 
-                // Configurar columnas del DataGridView
-                testDataGridView->ColumnCount = 4;
-                testDataGridView->Columns[0]->Name = "ID";
-                testDataGridView->Columns[1]->Name = "Nombre";
-                testDataGridView->Columns[2]->Name = "Fabricante";
-                testDataGridView->Columns[3]->Name = "ID_Tipo";
-
-                // Agregar filas al DataGridView
-                for (const auto& row : res) {
-                    cli::array<String^>^ managedRow = gcnew cli::array<String^>(4);
-                    managedRow[0] = gcnew String(row[0].c_str());
-                    managedRow[1] = gcnew String(row[1].c_str());
-                    managedRow[2] = gcnew String(row[2].c_str());
-                    managedRow[3] = gcnew String(row[3].c_str());
-                    testDataGridView->Rows->Add(managedRow);
-                }
-
-                // Consulta SQL para llenar el ListBox con nombres de tipos de piezas
-                auto res2 = db.select("SELECT NOMBRE FROM tTipoPieza");
-
-                for (const auto& row : res2) {
-                    String^ item = gcnew String(row[0].c_str());
-                    lMaterias->Items->Add(item);
-                }
-
-               
+            // Agregar filas al DataGridView desde la lista de piezas
+            for (const auto& pieza : piezas) {
+                cli::array<String^>^ managedRow = gcnew cli::array<String^>(4);
+                managedRow[0] = gcnew String(std::to_string(pieza.getId()).c_str());
+                managedRow[1] = gcnew String(pieza.toString().c_str());
+                managedRow[2] = gcnew String(pieza.getFabricante().c_str());
+                managedRow[3] = gcnew String(pieza.getIdTipo().c_str());
+                testDataGridView->Rows->Add(managedRow);
             }
-            else {
-                MessageBox::Show("Error al conectar a la base de datos.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
-            }
+
+            // Obtener nombres de tipos de piezas y llenar el ListBox
+            /*auto tipos = Pieza::ListarTodas();
+            for (const auto& tipo : tipos) {
+                lMaterias->Items->Add(gcnew String(tipo.c_str()));
+            }*/
         }
         catch (std::exception& e) {
             MessageBox::Show("Error general: " + gcnew String(e.what()), "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
         }
+    }
 
-        
+    Void Test::bLimpiar_Click(System::Object^ sender, System::EventArgs^ e) {
+        try {
+            // Vaciar el contenido de la listBox 
+            lMaterias->SelectedItem = nullptr;
+
+            // Deseleccionar cualquier objeto del DataGridView 
+            testDataGridView->ClearSelection();
+
+            // Eliminar el texto de los textBox 
+            tNombre->Text = "";
+            tFabricante->Text = "";
+        }
+        catch (System::Exception^ ex) {
+            MessageBox::Show("Ocurrió un error en Limpiar: " + ex->Message);
+        }
+
+    }
+
+    Void Test:: testDataGridView_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
+        try {
+            tNombre->Text = testDataGridView->SelectedRows[0]->Cells["Nombre"]->Value->ToString();
+            tFabricante->Text = testDataGridView->SelectedRows[0]->Cells["Fabricante"]->Value->ToString();
+            //AQUI HAY QUE PONER QUE SE SELECCIONE
+            // DE LA LISTBOX EL NOMBRE DEL TIPOPRODUCTO SELECCIONADO (IDPRODUCTO)
+
+
+        }
+        catch (System::Exception^ ex) {
+            MessageBox::Show("Ocurrió un error al hacer click en el dataGridView: " + ex->Message);
+        }
+
     }
 
     /*

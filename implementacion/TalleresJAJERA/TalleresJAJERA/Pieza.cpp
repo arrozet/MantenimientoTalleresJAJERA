@@ -80,10 +80,29 @@ void Pieza::setIdTipo(const std::string& idTipo) {
     this->idTipo = idTipo;
 }
 
+// Getters
+int Pieza::getId() const {
+    return id;
+}
+
+
+std::string Pieza::getNombre() const {
+    return nombre;
+}
+
+std::string Pieza::getFabricante() const {
+    return fabricante;
+}
+
+
+std::string Pieza::getIdTipo() const {
+    return idTipo;
+}
+
+
 // Borrar pieza
 void Pieza::borrar() {
     DBContext db(BDServer, User, Password, BDName);
-    db.connect();
     db.execute("DELETE FROM tPiezas WHERE ID = " + std::to_string(this->id));
     this->id = -1;
 }
