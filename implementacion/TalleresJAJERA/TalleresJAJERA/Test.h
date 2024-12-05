@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 namespace TalleresJAJERA {
 
 	using namespace System;
@@ -58,6 +60,7 @@ namespace TalleresJAJERA {
 	private: System::Windows::Forms::DataGridView^ testDataGridView;
 	private:
 		void LoadPiezas();
+		void refreshDataGridForSelectedType(const std::string& tipoSeleccionado);
 	protected:
 
 	private:
@@ -73,6 +76,7 @@ namespace TalleresJAJERA {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(Test::typeid));
 			this->testDataGridView = (gcnew System::Windows::Forms::DataGridView());
 			this->labelMaterias = (gcnew System::Windows::Forms::Label());
 			this->lMaterias = (gcnew System::Windows::Forms::ListBox());
@@ -91,19 +95,23 @@ namespace TalleresJAJERA {
 			// 
 			this->testDataGridView->AllowUserToAddRows = false;
 			this->testDataGridView->AllowUserToDeleteRows = false;
+			this->testDataGridView->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->testDataGridView->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->testDataGridView->Location = System::Drawing::Point(83, 256);
+			this->testDataGridView->Location = System::Drawing::Point(92, 197);
 			this->testDataGridView->Name = L"testDataGridView";
 			this->testDataGridView->RowHeadersWidth = 51;
-			this->testDataGridView->Size = System::Drawing::Size(931, 189);
+			this->testDataGridView->Size = System::Drawing::Size(922, 278);
 			this->testDataGridView->TabIndex = 0;
 			this->testDataGridView->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &Test::testDataGridView_CellClick);
 			// 
 			// labelMaterias
 			// 
+			this->labelMaterias->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->labelMaterias->AutoSize = true;
+			this->labelMaterias->BackColor = System::Drawing::Color::Black;
 			this->labelMaterias->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 16.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
+			this->labelMaterias->ForeColor = System::Drawing::Color::White;
 			this->labelMaterias->Location = System::Drawing::Point(159, 107);
 			this->labelMaterias->Name = L"labelMaterias";
 			this->labelMaterias->Size = System::Drawing::Size(95, 26);
@@ -112,6 +120,7 @@ namespace TalleresJAJERA {
 			// 
 			// lMaterias
 			// 
+			this->lMaterias->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->lMaterias->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->lMaterias->FormattingEnabled = true;
@@ -123,10 +132,13 @@ namespace TalleresJAJERA {
 			// 
 			// label2
 			// 
+			this->label2->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->label2->AutoSize = true;
+			this->label2->BackColor = System::Drawing::Color::Black;
 			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label2->Location = System::Drawing::Point(88, 513);
+			this->label2->ForeColor = System::Drawing::Color::White;
+			this->label2->Location = System::Drawing::Point(88, 512);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(65, 20);
 			this->label2->TabIndex = 4;
@@ -134,9 +146,12 @@ namespace TalleresJAJERA {
 			// 
 			// label3
 			// 
+			this->label3->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->label3->AutoSize = true;
+			this->label3->BackColor = System::Drawing::Color::Black;
 			this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
+			this->label3->ForeColor = System::Drawing::Color::White;
 			this->label3->Location = System::Drawing::Point(88, 556);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(85, 20);
@@ -145,6 +160,7 @@ namespace TalleresJAJERA {
 			// 
 			// tNombre
 			// 
+			this->tNombre->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->tNombre->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->tNombre->Location = System::Drawing::Point(190, 509);
@@ -154,6 +170,7 @@ namespace TalleresJAJERA {
 			// 
 			// tFabricante
 			// 
+			this->tFabricante->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->tFabricante->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->tFabricante->Location = System::Drawing::Point(190, 552);
@@ -163,53 +180,70 @@ namespace TalleresJAJERA {
 			// 
 			// bInsertar
 			// 
+			this->bInsertar->Anchor = System::Windows::Forms::AnchorStyles::None;
+			this->bInsertar->BackColor = System::Drawing::Color::Black;
 			this->bInsertar->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
+			this->bInsertar->ForeColor = System::Drawing::Color::White;
 			this->bInsertar->Location = System::Drawing::Point(190, 613);
 			this->bInsertar->Name = L"bInsertar";
-			this->bInsertar->Size = System::Drawing::Size(114, 23);
+			this->bInsertar->Size = System::Drawing::Size(114, 40);
 			this->bInsertar->TabIndex = 8;
 			this->bInsertar->Text = L"Insertar";
-			this->bInsertar->UseVisualStyleBackColor = true;
+			this->bInsertar->UseVisualStyleBackColor = false;
+			this->bInsertar->Click += gcnew System::EventHandler(this, &Test::bInsertar_Click);
 			// 
 			// bActualizar
 			// 
+			this->bActualizar->Anchor = System::Windows::Forms::AnchorStyles::None;
+			this->bActualizar->BackColor = System::Drawing::Color::Black;
 			this->bActualizar->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
+			this->bActualizar->ForeColor = System::Drawing::Color::White;
 			this->bActualizar->Location = System::Drawing::Point(407, 613);
 			this->bActualizar->Name = L"bActualizar";
-			this->bActualizar->Size = System::Drawing::Size(114, 23);
+			this->bActualizar->Size = System::Drawing::Size(114, 40);
 			this->bActualizar->TabIndex = 9;
 			this->bActualizar->Text = L"Actualizar";
-			this->bActualizar->UseVisualStyleBackColor = true;
+			this->bActualizar->UseVisualStyleBackColor = false;
+			this->bActualizar->Click += gcnew System::EventHandler(this, &Test::bActualizar_Click);
 			// 
 			// bEliminar
 			// 
+			this->bEliminar->Anchor = System::Windows::Forms::AnchorStyles::None;
+			this->bEliminar->BackColor = System::Drawing::Color::Black;
 			this->bEliminar->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
+			this->bEliminar->ForeColor = System::Drawing::Color::White;
 			this->bEliminar->Location = System::Drawing::Point(625, 613);
 			this->bEliminar->Name = L"bEliminar";
-			this->bEliminar->Size = System::Drawing::Size(114, 23);
+			this->bEliminar->Size = System::Drawing::Size(114, 40);
 			this->bEliminar->TabIndex = 10;
 			this->bEliminar->Text = L"Eliminar";
-			this->bEliminar->UseVisualStyleBackColor = true;
+			this->bEliminar->UseVisualStyleBackColor = false;
+			this->bEliminar->Click += gcnew System::EventHandler(this, &Test::bEliminar_Click);
 			// 
 			// bLimpiar
 			// 
+			this->bLimpiar->Anchor = System::Windows::Forms::AnchorStyles::None;
+			this->bLimpiar->BackColor = System::Drawing::Color::Black;
 			this->bLimpiar->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
+			this->bLimpiar->ForeColor = System::Drawing::Color::White;
 			this->bLimpiar->Location = System::Drawing::Point(831, 613);
 			this->bLimpiar->Name = L"bLimpiar";
-			this->bLimpiar->Size = System::Drawing::Size(114, 23);
+			this->bLimpiar->Size = System::Drawing::Size(114, 40);
 			this->bLimpiar->TabIndex = 11;
 			this->bLimpiar->Text = L"Limpiar";
-			this->bLimpiar->UseVisualStyleBackColor = true;
+			this->bLimpiar->UseVisualStyleBackColor = false;
 			this->bLimpiar->Click += gcnew System::EventHandler(this, &Test::bLimpiar_Click);
 			// 
 			// Test
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
+			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->ClientSize = System::Drawing::Size(1154, 675);
 			this->Controls->Add(this->bLimpiar);
 			this->Controls->Add(this->bEliminar);
@@ -237,5 +271,8 @@ private: System::Void bLimpiar_Click(System::Object^ sender, System::EventArgs^ 
 
 private: System::Void testDataGridView_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e);
 private: System::Void lMaterias_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e);
+private: System::Void bInsertar_Click(System::Object^ sender, System::EventArgs^ e);
+private: System::Void bEliminar_Click(System::Object^ sender, System::EventArgs^ e);
+private: System::Void bActualizar_Click(System::Object^ sender, System::EventArgs^ e);
 };
 }
