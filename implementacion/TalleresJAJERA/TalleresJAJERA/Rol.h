@@ -1,36 +1,43 @@
-#pragma once
+#ifndef ROL_H
+#define ROL_H
+
 #include <string>
 #include <vector>
-#include "DBContext.h"
-#include <stdexcept>
-
-using namespace std;
+#include "DBContext.h"  // Reemplaza con tu clase de acceso a la base de datos
 
 class Rol {
 private:
-    int id;             // ID del rol
-    string nombre;      // Nombre del rol
-
-    // DBContext estático para la conexión
-    static DBContext db;
+    std::string rolName;
+    std::string rolDes;
+    bool admin;
 
 public:
-    // Constructores
-    Rol(int id);
-    Rol(const string& nombre);
+    // Constructor para cargar un rol existente
+    Rol(const std::string& rolName);
 
-    // Métodos estáticos
-    static vector<Rol> ListarTodos();
-    static Rol BuscarPorNombre(const string& nombre);
+    // Constructor para insertar un nuevo rol
+    Rol(const std::string& rolName, const std::string& rolDes, bool admin);
 
-    // Métodos de instancia
-    int getId() const;
-    string getNombre() const;
-    void setNombre(const string& nuevoNombre);
+    // Métodos de listado
+    static std::vector<Rol> ListarTodos();
 
+    // Setters con actualización en la base de datos
+    void setRolDes(const std::string& rolDes);
+    void setAdmin(bool admin);
+
+    // Getters
+    std::string getRolName() const;
+    std::string getRolDes() const;
+    bool isAdmin() const;
+
+    // Método para borrar un rol
     void borrar();
-    string toString() const;
 
-    // Sobrecarga de operadores
-    bool operator==(const Rol& other) const;
+    // Representación en cadena
+    std::string toString() const;
+
+    // DBContext estático para compartir la conexión
+    static DBContext db;
 };
+
+#endif

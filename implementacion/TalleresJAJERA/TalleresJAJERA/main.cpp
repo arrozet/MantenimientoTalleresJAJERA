@@ -1,4 +1,5 @@
 #include "Test.h"
+#include "Login.h"
 #include <locale.h>
 #include <windows.h>
 #include <iostream>
@@ -7,7 +8,7 @@ using namespace System;
 using namespace System::Windows::Forms;
 
 [STAThreadAttribute]
-int main(array<String^>^ args)
+int main(String^ args)
 {
 
     // Habilitar estilos visuales para los controles
@@ -15,8 +16,8 @@ int main(array<String^>^ args)
     Application::SetCompatibleTextRenderingDefault(false);
 
     // Ejecutar el formulario principal
-    TalleresJAJERA::Test testForm;
-    Application::Run(% testForm);
+    TalleresJAJERA::Login LoginForm;
+    Application::Run(% LoginForm);
 
     return 0;
 }

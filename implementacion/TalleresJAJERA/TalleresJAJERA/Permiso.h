@@ -1,36 +1,47 @@
-#pragma once
+#ifndef PERMISO_H  // Inicio de la protección del encabezado
+#define PERMISO_H
+
 #include <string>
 #include <vector>
-#include "DBContext.h"
-#include <stdexcept>
-
-using namespace std;
+#include "DBContext.h" // Verifica que este archivo exista y esté en el directorio correcto
 
 class Permiso {
 private:
-    int id;             // ID del permiso
-    string nombre;      // Nombre del permiso
-
-    // DBContext estático para la conexión
-    static DBContext db;
+    std::string rolName;
+    std::string pantalla;
+    bool acceso;
+    bool modificacion;
 
 public:
-    // Constructores
-    Permiso(int id);
-    Permiso(const string& nombre);
+    // Constructor para cargar un permiso existente
+    Permiso(const std::string& rolName, const std::string& pantalla);
 
-    // Métodos estáticos
-    static vector<Permiso> ListarTodos();
-    static Permiso BuscarPorNombre(const string& nombre);
+    // Constructor para insertar un nuevo permiso
+    Permiso(const std::string& rolName, const std::string& pantalla, bool acceso, bool modificacion);
 
-    // Métodos de instancia
-    int getId() const;
-    string getNombre() const;
-    void setNombre(const string& nuevoNombre);
+    // Métodos de listado
+    static std::vector<Permiso> ListarTodos();
+    static std::vector<Permiso> ListarPorRol(const std::string& rolName);
+    static std::vector<Permiso> ListarPorPantalla(const std::string& pantalla);
 
+    // Setters con actualización en la base de datos
+    void setAcceso(bool acceso);
+    void setModificacion(bool modificacion);
+
+    // Getters
+    std::string getRolName() const;
+    std::string getPantalla() const;
+    bool getAcceso() const;
+    bool getModificacion() const;
+
+    // Método para borrar un permiso
     void borrar();
-    string toString() const;
 
-    // Sobrecarga de operadores
-    bool operator==(const Permiso& other) const;
+    // Representación en cadena
+    std::string toString() const;
+
+    // DBContext estático para compartir la conexión
+    static DBContext db;
 };
+
+#endif // Fin de la protección del encabezado

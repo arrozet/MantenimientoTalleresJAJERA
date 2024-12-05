@@ -2,6 +2,7 @@
 #include "DBContext.h"
 #include "Pieza.h"
 #include "TipoPieza.h"
+#include "Test.h"  
 #include <mysql_driver.h>
 #include <mysql_connection.h>
 #include <cppconn/statement.h>
@@ -23,7 +24,7 @@ namespace TalleresJAJERA {
     bool Login::autenticar(const std::string& nombre, const std::string& password) {
         try {
             // Buscar al usuario en la base de datos
-            Usuario usuario = obtenerUsuario(nombre);
+            Usuario usuario = Usuario(nombre);
             if (usuario.getPassword() == password) {
                 return true; // Contraseña correcta
             }
@@ -36,7 +37,7 @@ namespace TalleresJAJERA {
         }
     }
     
-    Usuario Login::obtenerUsuario(const std::string& nombre) {
+    /*Usuario Login::obtenerUsuario(const std::string& nombre) {
         try {
             // Obtener todos los usuarios desde el método ListarTodos de la clase Usuario
             std::vector<Usuario> usuarios = Usuario::ListarTodos();
@@ -54,7 +55,7 @@ namespace TalleresJAJERA {
         catch (const std::exception& e) {
             throw std::runtime_error("Error al obtener usuario: " + std::string(e.what()));
         }
-    }
+    }*/
     void Login::bOk_Click(System::Object^ sender, System::EventArgs^ e) {
         try {
             // Obtener los valores de las TextBox
@@ -68,7 +69,7 @@ namespace TalleresJAJERA {
             }
 
             // Intentar obtener el usuario de la base de datos
-            Usuario usuario = obtenerUsuario(nombreUsuario);
+            //Usuario usuario = obtenerUsuario(nombreUsuario);
 
             // Verificar si la contraseña es correcta
             if (!autenticar(nombreUsuario,contrasena)) {
@@ -81,6 +82,10 @@ namespace TalleresJAJERA {
 
             // Llamar al siguiente paso del login, como abrir la siguiente ventana
             // Por ejemplo: AbrirMainForm();
+            this->Hide();
+            Test^ testForm = gcnew Test();
+            testForm->ShowDialog();
+            this->Show();  // Muestra de nuevo el formulario login si se cierra Test
         }
         catch (const std::exception& e) {
             // Si el usuario no existe, capturamos la excepción y mostramos un mensaje de error

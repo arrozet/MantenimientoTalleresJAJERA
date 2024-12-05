@@ -1,43 +1,47 @@
-#pragma once
-#include <string>
-#include "DBContext.h"
-#include <stdexcept>
-#include <vector>
+#ifndef USUARIO_H
+#define USUARIO_H
 
-using namespace std;
+#include <string>
+#include <vector>
+#include "DBContext.h"
 
 class Usuario {
 private:
-    int id;                  // ID del usuario
-    string nombre;           // Nombre del usuario
-    string password;         // Contraseña del usuario
-    string rol;              // Rol del usuario
-
-    // DBContext para esta clase
-    static DBContext db;
+    std::string nombre;
+    std::string password;
+    std::string rolName;
 
 public:
-    // Constructores
-    Usuario(int id);
-    Usuario(const string& nombre, const string& password, const string& rol);
+    // Constructor para cargar un usuario existente
+    Usuario(const std::string& nombre);
 
-    // Métodos estáticos
-    static vector<Usuario> ListarTodos();
-    static Usuario BuscarPorNombre(const string& nombre);
+    // Constructor para insertar un nuevo usuario
+    Usuario(const std::string& nombre, const std::string& password, const std::string& rolName);
 
-    // Métodos de instancia
-    void setNombre(const string& nuevoNombre);
-    void setPassword(const string& nuevoPassword);
-    void setRol(const string& nuevoRol);
+    // Métodos de listado
+    static std::vector<Usuario> ListarTodos();
+    static std::vector<Usuario> ListarPorRol(const std::string& rolName);
 
-    int getId() const;
-    string getNombre() const;
-    string getPassword() const;
-    string getRol() const;
+    // Setters con actualización en la base de datos
+    void setPassword(const std::string& password);
+    void setRolName(const std::string& rolName);
 
+    // Getters
+    std::string getNombre() const;
+    std::string getPassword() const;
+    std::string getRolName() const;
+
+    // Método para borrar un usuario
     void borrar();
-    string toString() const;
 
-    // Sobrecarga de operadores
+    // Representación en cadena
+    std::string toString() const;
+
+    // Comparación
     bool operator==(const Usuario& other) const;
+
+    // DBContext estático para compartir la conexión
+    static DBContext db;
 };
+
+#endif // USUARIO_H
