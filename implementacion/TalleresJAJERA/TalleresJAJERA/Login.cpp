@@ -65,6 +65,7 @@ namespace TalleresJAJERA {
                 this->Hide();
                 Test^ testForm = gcnew Test(rol);
                 testForm->ShowDialog();
+                this->Close();
             }
         }
         catch (const std::exception& e) {

@@ -54,6 +54,7 @@ namespace TalleresJAJERA {
 	private: System::Windows::Forms::Button^ bActualizar;
 	private: System::Windows::Forms::Button^ bEliminar;
 	private: System::Windows::Forms::Button^ bLimpiar;
+	private: System::Windows::Forms::Button^ bSalir;
 
 
 	protected:
@@ -90,6 +91,7 @@ namespace TalleresJAJERA {
 			this->bActualizar = (gcnew System::Windows::Forms::Button());
 			this->bEliminar = (gcnew System::Windows::Forms::Button());
 			this->bLimpiar = (gcnew System::Windows::Forms::Button());
+			this->bSalir = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->testDataGridView))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -240,6 +242,21 @@ namespace TalleresJAJERA {
 			this->bLimpiar->UseVisualStyleBackColor = false;
 			this->bLimpiar->Click += gcnew System::EventHandler(this, &Test::bLimpiar_Click);
 			// 
+			// bSalir
+			// 
+			this->bSalir->Anchor = System::Windows::Forms::AnchorStyles::None;
+			this->bSalir->BackColor = System::Drawing::Color::Maroon;
+			this->bSalir->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->bSalir->ForeColor = System::Drawing::Color::White;
+			this->bSalir->Location = System::Drawing::Point(1007, 593);
+			this->bSalir->Name = L"bSalir";
+			this->bSalir->Size = System::Drawing::Size(135, 70);
+			this->bSalir->TabIndex = 12;
+			this->bSalir->Text = L"SALIR";
+			this->bSalir->UseVisualStyleBackColor = false;
+			this->bSalir->Click += gcnew System::EventHandler(this, &Test::bSalir_Click);
+			// 
 			// Test
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -247,6 +264,7 @@ namespace TalleresJAJERA {
 			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->ClientSize = System::Drawing::Size(1154, 675);
+			this->Controls->Add(this->bSalir);
 			this->Controls->Add(this->bLimpiar);
 			this->Controls->Add(this->bEliminar);
 			this->Controls->Add(this->bActualizar);
@@ -276,5 +294,6 @@ private: System::Void lMaterias_SelectedIndexChanged(System::Object^ sender, Sys
 private: System::Void bInsertar_Click(System::Object^ sender, System::EventArgs^ e);
 private: System::Void bEliminar_Click(System::Object^ sender, System::EventArgs^ e);
 private: System::Void bActualizar_Click(System::Object^ sender, System::EventArgs^ e);
+private: System::Void bSalir_Click(System::Object^ sender, System::EventArgs^ e);
 };
 }

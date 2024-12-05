@@ -310,4 +310,8 @@ namespace TalleresJAJERA {
 
     }
 
+    Void Test::bSalir_Click(System::Object^ sender, System::EventArgs^ e) {
+        this->Close();
+    }
+
 }
