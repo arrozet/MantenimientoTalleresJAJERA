@@ -1,4 +1,5 @@
 #include "Test.h"
+#include "DBContext.h"
 #include <mysql_driver.h>
 #include <mysql_connection.h>
 #include <cppconn/statement.h>
@@ -16,65 +17,48 @@ namespace TalleresJAJERA {
     void Test::LoadPiezas()
     {
         try {
-            // Crear el driver y la conexión
-            sql::mysql::MySQL_Driver* driver = sql::mysql::get_mysql_driver_instance();
-            Connection* con = driver->connect(
-                "tcp://database-minipim.cdwgeayaeh1v.eu-central-1.rds.amazonaws.com:3306?auth_plugin=mysql_native_password",
+            // Crear una instancia de DBContext
+            DBContext db("database-minipim.cdwgeayaeh1v.eu-central-1.rds.amazonaws.com:3306?auth_plugin=mysql_native_password",
                 "grupo07",
-                "FjLWM6DNk6TJDzfV"
-            );
+                "FjLWM6DNk6TJDzfV",
+                "grupo07DB");
 
-            // Seleccionar el esquema de la base de datos
-            con->setSchema("grupo07DB");
+            if (db.connect()) {
+                // Consulta SQL para seleccionar datos de la tabla tPiezas
+                auto res = db.select("SELECT ID, NOMBRE, FABRICANTE, ID_TIPO FROM tPiezas");
 
-            // Crear el objeto Statement
-            Statement* stmt = con->createStatement();
+                // Configurar columnas del DataGridView
+                testDataGridView->ColumnCount = 4;
+                testDataGridView->Columns[0]->Name = "ID";
+                testDataGridView->Columns[1]->Name = "Nombre";
+                testDataGridView->Columns[2]->Name = "Fabricante";
+                testDataGridView->Columns[3]->Name = "ID_Tipo";
 
-            // Statement para la listBox
-            Statement* stmt2 = con->createStatement();
+                // Agregar filas al DataGridView
+                for (const auto& row : res) {
+                    cli::array<String^>^ managedRow = gcnew cli::array<String^>(4);
+                    managedRow[0] = gcnew String(row[0].c_str());
+                    managedRow[1] = gcnew String(row[1].c_str());
+                    managedRow[2] = gcnew String(row[2].c_str());
+                    managedRow[3] = gcnew String(row[3].c_str());
+                    testDataGridView->Rows->Add(managedRow);
+                }
 
-            // Consulta SQL para seleccionar datos de la tabla tPiezas
-            ResultSet* res = stmt->executeQuery("SELECT ID, NOMBRE, FABRICANTE, ID_TIPO FROM tPiezas");
+                // Consulta SQL para llenar el ListBox con nombres de tipos de piezas
+                auto res2 = db.select("SELECT NOMBRE FROM tTipoPieza");
 
-            // Configurar columnas del DataGridView
-            testDataGridView->ColumnCount = 4;
-            testDataGridView->Columns[0]->Name = "ID";
-            testDataGridView->Columns[1]->Name = "Nombre";
-            testDataGridView->Columns[2]->Name = "Fabricante";
-            testDataGridView->Columns[3]->Name = "ID_Tipo";
+                for (const auto& row : res2) {
+                    String^ item = gcnew String(row[0].c_str());
+                    lMaterias->Items->Add(item);
+                }
 
-            // Agregar filas al DataGridView
-            while (res->next()) {
-                cli::array<String^>^ row = gcnew cli::array<String^>(4);
-                row[0] = gcnew String(res->getString("ID").c_str());
-                row[1] = gcnew String(res->getString("NOMBRE").c_str());
-                row[2] = gcnew String(res->getString("FABRICANTE").c_str());
-                row[3] = gcnew String(res->getString("ID_TIPO").c_str());
-                testDataGridView->Rows->Add(row);
+               
             }
-
-            ResultSet* res2 = stmt2->executeQuery("SELECT NOMBRE FROM tTipoPieza");
-
-            while (res2->next()) {
-                  String^ item = gcnew String(res2->getString("NOMBRE").c_str());
-                 lMaterias->Items->Add(item);
+            else {
+                MessageBox::Show("Error al conectar a la base de datos.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
             }
-           
-                
-             
-
-            // Liberar recursos
-            delete res;
-            delete stmt;
-            delete con;
-            delete stmt2;
-            delete res2;
-
         }
-        catch (SQLException& e) {
-            MessageBox::Show("SQL Error: " + gcnew String(e.what()), "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
-        }
-        catch (exception& e) {
+        catch (std::exception& e) {
             MessageBox::Show("Error general: " + gcnew String(e.what()), "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
         }
 
