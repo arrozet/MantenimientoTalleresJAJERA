@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 namespace TalleresJAJERA {
 
 	using namespace System;
@@ -58,6 +60,7 @@ namespace TalleresJAJERA {
 	private: System::Windows::Forms::DataGridView^ testDataGridView;
 	private:
 		void LoadPiezas();
+		void refreshDataGridForSelectedType(const std::string& tipoSeleccionado);
 	protected:
 
 	private:
@@ -171,6 +174,7 @@ namespace TalleresJAJERA {
 			this->bInsertar->TabIndex = 8;
 			this->bInsertar->Text = L"Insertar";
 			this->bInsertar->UseVisualStyleBackColor = true;
+			this->bInsertar->Click += gcnew System::EventHandler(this, &Test::bInsertar_Click);
 			// 
 			// bActualizar
 			// 
@@ -182,6 +186,7 @@ namespace TalleresJAJERA {
 			this->bActualizar->TabIndex = 9;
 			this->bActualizar->Text = L"Actualizar";
 			this->bActualizar->UseVisualStyleBackColor = true;
+			this->bActualizar->Click += gcnew System::EventHandler(this, &Test::bActualizar_Click);
 			// 
 			// bEliminar
 			// 
@@ -193,6 +198,7 @@ namespace TalleresJAJERA {
 			this->bEliminar->TabIndex = 10;
 			this->bEliminar->Text = L"Eliminar";
 			this->bEliminar->UseVisualStyleBackColor = true;
+			this->bEliminar->Click += gcnew System::EventHandler(this, &Test::bEliminar_Click);
 			// 
 			// bLimpiar
 			// 
@@ -237,5 +243,8 @@ private: System::Void bLimpiar_Click(System::Object^ sender, System::EventArgs^ 
 
 private: System::Void testDataGridView_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e);
 private: System::Void lMaterias_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e);
+private: System::Void bInsertar_Click(System::Object^ sender, System::EventArgs^ e);
+private: System::Void bEliminar_Click(System::Object^ sender, System::EventArgs^ e);
+private: System::Void bActualizar_Click(System::Object^ sender, System::EventArgs^ e);
 };
 }
