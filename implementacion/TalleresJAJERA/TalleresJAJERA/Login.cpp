@@ -37,25 +37,6 @@ namespace TalleresJAJERA {
         }
     }
     
-    /*Usuario Login::obtenerUsuario(const std::string& nombre) {
-        try {
-            // Obtener todos los usuarios desde el método ListarTodos de la clase Usuario
-            std::vector<Usuario> usuarios = Usuario::ListarTodos();
-
-            // Buscar el usuario por nombre en la lista obtenida
-            for (const auto& usuario : usuarios) {
-                if (usuario.getNombre() == nombre) {
-                    return usuario;  // Si lo encontramos, lo retornamos
-                }
-            }
-
-            // Si no se encuentra el usuario, lanzamos una excepción
-            throw std::runtime_error("Usuario no encontrado");
-        }
-        catch (const std::exception& e) {
-            throw std::runtime_error("Error al obtener usuario: " + std::string(e.what()));
-        }
-    }*/
     void Login::bOk_Click(System::Object^ sender, System::EventArgs^ e) {
         try {
             // Obtener los valores de las TextBox
@@ -69,23 +50,17 @@ namespace TalleresJAJERA {
             }
 
             // Intentar obtener el usuario de la base de datos
-            //Usuario usuario = obtenerUsuario(nombreUsuario);
 
             // Verificar si la contraseña es correcta
-            if (!autenticar(nombreUsuario,contrasena)) {
-                MessageBox::Show("Contraseña incorrecta.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
-                return;
+            if (autenticar(nombreUsuario,contrasena)) {
+                // Si el usuario es autenticado correctamente, puedes continuar con el siguiente paso (ej. redirigir a otra ventana)
+                MessageBox::Show("Login exitoso", "Bienvenido", MessageBoxButtons::OK, MessageBoxIcon::Information);
+
+                // Llamar al siguiente paso del login, como abrir la siguiente ventana
+                this->Hide();
+                Test^ testForm = gcnew Test();
+                testForm->ShowDialog();
             }
-
-            // Si el usuario es autenticado correctamente, puedes continuar con el siguiente paso (ej. redirigir a otra ventana)
-            MessageBox::Show("Login exitoso", "Bienvenido", MessageBoxButtons::OK, MessageBoxIcon::Information);
-
-            // Llamar al siguiente paso del login, como abrir la siguiente ventana
-            // Por ejemplo: AbrirMainForm();
-            this->Hide();
-            Test^ testForm = gcnew Test();
-            testForm->ShowDialog();
-            this->Show();  // Muestra de nuevo el formulario login si se cierra Test
         }
         catch (const std::exception& e) {
             // Si el usuario no existe, capturamos la excepción y mostramos un mensaje de error

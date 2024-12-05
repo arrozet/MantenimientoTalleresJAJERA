@@ -25,7 +25,6 @@ namespace TalleresJAJERA {
 		Login(void)
 		{
 			InitializeComponent();
-			this->bOk->Click += gcnew System::EventHandler(this, &Login::bOk_Click);
 			//
 			//TODO: agregar código de constructor aquí
 			//
@@ -154,10 +153,9 @@ namespace TalleresJAJERA {
 
 		}
 
-#pragma endregion
-private: bool autenticar(const std::string& nombre, const std::string& password);
-//private: Usuario obtenerUsuario(const std::string& nombre);
-public: System::Void bOk_Click(System::Object^ sender, System::EventArgs^ e);
+		#pragma endregion
+		private: bool autenticar(const std::string& nombre, const std::string& password);
+		public: System::Void bOk_Click(System::Object^ sender, System::EventArgs^ e);
 	};
 }
 
