@@ -82,27 +82,28 @@ namespace TalleresJAJERA {
     }
 
     void Test::lMaterias_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
-        // Obtener la lista de piezas usando la clase Pieza
-        auto tipoSeleccionado = DBContext::ConvertFromUTF8(lMaterias->SelectedItem->ToString());
-        cout << tipoSeleccionado << endl;
-        auto piezas = Pieza::ListarPorTipo(tipoSeleccionado);
+        if (lMaterias->SelectedIndex >= 0) {
+            // Obtener la lista de piezas usando la clase Pieza
+            auto tipoSeleccionado = DBContext::ConvertFromUTF8(lMaterias->SelectedItem->ToString());
+            cout << tipoSeleccionado << endl;
+            auto piezas = Pieza::ListarPorTipo(tipoSeleccionado);
 
-        // Limpiar las filas existentes en el DataGridView
-        testDataGridView->Rows->Clear();
+            // Limpiar las filas existentes en el DataGridView
+            testDataGridView->Rows->Clear();
 
-        // Agregar filas al DataGridView desde la lista de piezas
-        for (const auto& pieza : piezas) {
-            cli::array<String^>^ managedRow = gcnew cli::array<String^>(4);
-            // Convertir a System::String usando ConvertToUTF8 para cada campo
-            managedRow[0] = gcnew String(std::to_string(pieza.getId()).c_str());
+            // Agregar filas al DataGridView desde la lista de piezas
+            for (const auto& pieza : piezas) {
+                cli::array<String^>^ managedRow = gcnew cli::array<String^>(4);
+                // Convertir a System::String usando ConvertToUTF8 para cada campo
+                managedRow[0] = gcnew String(std::to_string(pieza.getId()).c_str());
 
-            // Convertir a System::String para campos con caracteres especiales (tildes)
-            managedRow[1] = DBContext::ConvertToUTF8(pieza.toString());  // Nombre de la pieza
-            managedRow[2] = DBContext::ConvertToUTF8(pieza.getFabricante());  // Fabricante
-            managedRow[3] = DBContext::ConvertToUTF8(pieza.getIdTipo());  // Tipo de pieza
-            testDataGridView->Rows->Add(managedRow);
+                // Convertir a System::String para campos con caracteres especiales (tildes)
+                managedRow[1] = DBContext::ConvertToUTF8(pieza.toString());  // Nombre de la pieza
+                managedRow[2] = DBContext::ConvertToUTF8(pieza.getFabricante());  // Fabricante
+                managedRow[3] = DBContext::ConvertToUTF8(pieza.getIdTipo());  // Tipo de pieza
+                testDataGridView->Rows->Add(managedRow);
+            }
         }
-
     }
 
 
