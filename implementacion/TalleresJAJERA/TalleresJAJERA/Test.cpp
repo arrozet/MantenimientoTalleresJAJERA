@@ -40,8 +40,6 @@ namespace TalleresJAJERA {
             testDataGridView->Columns[1]->Name = "Nombre";
             testDataGridView->Columns[2]->Name = "Fabricante";
             testDataGridView->Columns[3]->Name = "ID_Tipo";
-
-            
         }
         catch (std::exception& e) {
             MessageBox::Show("Error general: " + gcnew String(e.what()), "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
