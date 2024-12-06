@@ -63,10 +63,6 @@ namespace TalleresJAJERA {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->KeyPreview = true; // Permite que el formulario capture teclas primero
-
-
-
 			this->lBienvenido = (gcnew System::Windows::Forms::Label());
 			this->labUsuario = (gcnew System::Windows::Forms::Label());
 			this->labPassword = (gcnew System::Windows::Forms::Label());
@@ -111,14 +107,16 @@ namespace TalleresJAJERA {
 			this->tUsuario->Name = L"tUsuario";
 			this->tUsuario->Size = System::Drawing::Size(194, 20);
 			this->tUsuario->TabIndex = 3;
+			this->tUsuario->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Login::Login_KeyDown);
 			// 
 			// tPassword
 			// 
 			this->tPassword->Location = System::Drawing::Point(125, 195);
 			this->tPassword->Name = L"tPassword";
+			this->tPassword->PasswordChar = '*';
 			this->tPassword->Size = System::Drawing::Size(194, 20);
 			this->tPassword->TabIndex = 4;
-			this->tPassword->PasswordChar = '*';
+			this->tPassword->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Login::Login_KeyDown);
 			// 
 			// bOk
 			// 
@@ -138,6 +136,7 @@ namespace TalleresJAJERA {
 			this->bCancel->TabIndex = 6;
 			this->bCancel->Text = L"Cancel";
 			this->bCancel->UseVisualStyleBackColor = true;
+			this->bCancel->Click += gcnew System::EventHandler(this, &Login::bCancel_Click);
 			// 
 			// Login
 			// 
@@ -151,18 +150,12 @@ namespace TalleresJAJERA {
 			this->Controls->Add(this->labPassword);
 			this->Controls->Add(this->labUsuario);
 			this->Controls->Add(this->lBienvenido);
+			this->KeyPreview = true;
 			this->Name = L"Login";
 			this->Text = L"Login";
+			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Login::Login_KeyDown);
 			this->ResumeLayout(false);
 			this->PerformLayout();
-			//
-			// Tecla Enter
-			// 
-			// Registrar el evento KeyDown para todo el formulario
-			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Login::Login_KeyDown);
-			this->tUsuario->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Login::Login_KeyDown);
-			this->tPassword->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Login::Login_KeyDown);
-
 
 		}
 
@@ -170,6 +163,7 @@ namespace TalleresJAJERA {
 		private: std::string autenticar(const std::string& nombre, const std::string& password);
 		public: System::Void bOk_Click(System::Object^ sender, System::EventArgs^ e);
 		private: System::Void Login_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e); 
-	};
+		private: System::Void bCancel_Click(System::Object^ sender, System::EventArgs^ e);
+};
 }
 

@@ -81,5 +81,8 @@ namespace TalleresJAJERA {
         }
     }
 
+    void Login::bCancel_Click(System::Object^ sender, System::EventArgs^ e) {
+        this->Close();
+    }
     
 }
