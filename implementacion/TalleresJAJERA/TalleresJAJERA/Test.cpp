@@ -78,14 +78,18 @@ namespace TalleresJAJERA {
             testDataGridView->Columns[1]->Name = "Nombre";
             testDataGridView->Columns[2]->Name = "Fabricante";
             testDataGridView->Columns[3]->Name = "ID_Tipo";
+            testDataGridView->Visible = false;
+
         }
         catch (std::exception& e) {
             MessageBox::Show("Error general: " + gcnew String(e.what()), "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
         }
     }
 
+
     void Test::refreshDataGridForSelectedType(const std::string& tipoSeleccionado) {
         try {
+            testDataGridView->Visible = true;
             // Obtener la lista de piezas usando la clase Pieza para el tipo seleccionado
             auto piezas = Pieza::ListarPorTipo(tipoSeleccionado);
 
@@ -104,6 +108,7 @@ namespace TalleresJAJERA {
                 managedRow[3] = DBContext::ConvertToUTF8(pieza.getIdTipo());  // Tipo de pieza
                 testDataGridView->Rows->Add(managedRow);
             }
+            testDataGridView->ClearSelection(); // Si no aparece siempre seleccionado el primero
         }
         catch (const std::exception& ex) {
             // Manejo de errores en caso de que ocurra un problema
@@ -123,6 +128,8 @@ namespace TalleresJAJERA {
             // Eliminar el texto de los textBox 
             tNombre->Text = "";
             tFabricante->Text = "";
+
+            testDataGridView->Visible = false;
         }
         catch (System::Exception^ ex) {
             MessageBox::Show("Ocurrió un error en Limpiar: " + ex->Message);
@@ -132,8 +139,8 @@ namespace TalleresJAJERA {
 
     Void Test:: testDataGridView_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
         try {
-            tNombre->Text = testDataGridView->SelectedRows[0]->Cells["Nombre"]->Value->ToString();
-            tFabricante->Text = testDataGridView->SelectedRows[0]->Cells["Fabricante"]->Value->ToString();
+            tNombre->Text = testDataGridView->CurrentRow->Cells["Nombre"]->Value->ToString();
+            tFabricante->Text = testDataGridView->CurrentRow->Cells["Fabricante"]->Value->ToString();
             //AQUI HAY QUE PONER QUE SE SELECCIONE
             // DE LA LISTBOX EL NOMBRE DEL TIPOPRODUCTO SELECCIONADO (IDPRODUCTO)
 
@@ -219,25 +226,38 @@ namespace TalleresJAJERA {
     Void Test::bEliminar_Click(System::Object^ sender, System::EventArgs^ e) {
         try {
             // Verificar que haya una fila seleccionada en el DataGridView
-            if (testDataGridView->SelectedRows->Count > 0) {
+            if (testDataGridView->SelectedCells->Count > 0) {
                 // Obtener el ID de la pieza seleccionada (suponiendo que está en la primera columna)
-                int selectedRowIndex = testDataGridView->SelectedRows[0]->Index;
-                String^ idString = testDataGridView->Rows[selectedRowIndex]->Cells["ID"]->Value->ToString();
+                System::Windows::Forms::DialogResult result = MessageBox::Show(
+                    "¿Seguro que quieres eliminar esta pieza?",
+                    "Confirmación",
+                    MessageBoxButtons::YesNo,
+                    MessageBoxIcon::Warning
+                );
+                // Evaluar la respuesta del usuario
+                if (result == System::Windows::Forms::DialogResult::Yes) {
+                    // Código para eliminar la pieza
+                    String^ idString = testDataGridView->CurrentRow->Cells["ID"]->Value->ToString();
 
-                // Convertir el ID de String^ a int
-                int idPieza = System::Int32::Parse(idString);
+                    // Convertir el ID de String^ a int
+                    int idPieza = System::Int32::Parse(idString);
 
-                // Crear una pieza con el ID de la pieza seleccionada
-                Pieza piezaAEliminar(idPieza);
+                    // Crear una pieza con el ID de la pieza seleccionada
+                    Pieza piezaAEliminar(idPieza);
 
-                // Llamar al método borrar para eliminar la pieza de la base de datos
-                piezaAEliminar.borrar();
+                    // Llamar al método borrar para eliminar la pieza de la base de datos
+                    piezaAEliminar.borrar();
 
-                // Mostrar mensaje de éxito
-                MessageBox::Show("Pieza eliminada con éxito.", "Éxito", MessageBoxButtons::OK, MessageBoxIcon::Information);
+                    // Mostrar mensaje de éxito
+                    MessageBox::Show("Pieza eliminada con éxito.", "Éxito", MessageBoxButtons::OK, MessageBoxIcon::Information);
 
-                // Recargar el DataGridView para reflejar la eliminación
-                refreshDataGridForSelectedType(DBContext::ConvertFromUTF8(lMaterias->SelectedItem->ToString()));
+                    // Recargar el DataGridView para reflejar la eliminación
+                    refreshDataGridForSelectedType(DBContext::ConvertFromUTF8(lMaterias->SelectedItem->ToString()));
+
+                    // Limpiar los campos de los TextBox
+                    tNombre->Text = "";
+                    tFabricante->Text = "";
+                }
             }
             else {
                 MessageBox::Show("Por favor seleccione una pieza para eliminar.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
@@ -257,10 +277,9 @@ namespace TalleresJAJERA {
     Void Test::bActualizar_Click(System::Object^ sender, System::EventArgs^ e) {
         try {
             // Verificar que haya una fila seleccionada en el DataGridView
-            if (testDataGridView->SelectedRows->Count > 0) {
+            if (testDataGridView->SelectedCells->Count > 0) {
                 // Obtener el ID de la pieza seleccionada (suponiendo que está en la primera columna)
-                int selectedRowIndex = testDataGridView->SelectedRows[0]->Index;
-                String^ idString = testDataGridView->Rows[selectedRowIndex]->Cells["ID"]->Value->ToString();
+                String^ idString = testDataGridView->CurrentRow->Cells["ID"]->Value->ToString();
 
                 // Convertir el ID de String^ a int
                 int idPieza = System::Int32::Parse(idString);

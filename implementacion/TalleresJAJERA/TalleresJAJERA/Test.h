@@ -138,7 +138,7 @@ namespace TalleresJAJERA {
 			// 
 			this->label2->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->label2->AutoSize = true;
-			this->label2->BackColor = System::Drawing::Color::Black;
+			this->label2->BackColor = System::Drawing::Color::Maroon;
 			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->label2->ForeColor = System::Drawing::Color::White;
@@ -152,7 +152,7 @@ namespace TalleresJAJERA {
 			// 
 			this->label3->Anchor = System::Windows::Forms::AnchorStyles::None;
 			this->label3->AutoSize = true;
-			this->label3->BackColor = System::Drawing::Color::Black;
+			this->label3->BackColor = System::Drawing::Color::Maroon;
 			this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->label3->ForeColor = System::Drawing::Color::White;

@@ -63,6 +63,10 @@ namespace TalleresJAJERA {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			this->KeyPreview = true; // Permite que el formulario capture teclas primero
+
+
+
 			this->lBienvenido = (gcnew System::Windows::Forms::Label());
 			this->labUsuario = (gcnew System::Windows::Forms::Label());
 			this->labPassword = (gcnew System::Windows::Forms::Label());
@@ -114,6 +118,7 @@ namespace TalleresJAJERA {
 			this->tPassword->Name = L"tPassword";
 			this->tPassword->Size = System::Drawing::Size(194, 20);
 			this->tPassword->TabIndex = 4;
+			this->tPassword->PasswordChar = '*';
 			// 
 			// bOk
 			// 
@@ -150,12 +155,21 @@ namespace TalleresJAJERA {
 			this->Text = L"Login";
 			this->ResumeLayout(false);
 			this->PerformLayout();
+			//
+			// Tecla Enter
+			// 
+			// Registrar el evento KeyDown para todo el formulario
+			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Login::Login_KeyDown);
+			this->tUsuario->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Login::Login_KeyDown);
+			this->tPassword->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Login::Login_KeyDown);
+
 
 		}
 
 		#pragma endregion
 		private: std::string autenticar(const std::string& nombre, const std::string& password);
 		public: System::Void bOk_Click(System::Object^ sender, System::EventArgs^ e);
+		private: System::Void Login_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e); 
 	};
 }
 

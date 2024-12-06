@@ -36,7 +36,7 @@ namespace TalleresJAJERA {
         }
         catch (const std::exception& e) {
             // Si no se encuentra el usuario o hay un error
-            MessageBox::Show("Error de autenticación: " + gcnew String(e.what()));
+            MessageBox::Show("Error de autenticación: " + gcnew String(e.what()),"Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
             return ""; // Error en la autenticación, retornar cadena vacía
         }
     }
@@ -57,7 +57,7 @@ namespace TalleresJAJERA {
 
             // Verificar si la contraseña es correcta
             string rol = autenticar(nombreUsuario, contrasena);
-            if (rol != "error") {
+            if (rol != "error" && rol != "") {
                 // Si el usuario es autenticado correctamente, puedes continuar con el siguiente paso (ej. redirigir a otra ventana)
                 MessageBox::Show("Login exitoso", "Bienvenido", MessageBoxButtons::OK, MessageBoxIcon::Information);
 
@@ -73,5 +73,13 @@ namespace TalleresJAJERA {
             MessageBox::Show("El usuario no existe.", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
         }
     }
+    void Login::Login_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
+        if (e->KeyCode == Keys::Enter) {
+            // Simula un clic en el botón OK
+            bOk_Click(sender, e);
+            e->SuppressKeyPress = true; // Evitar el sonido de error del sistema
+        }
+    }
+
     
 }
