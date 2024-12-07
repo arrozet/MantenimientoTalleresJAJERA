@@ -1,0 +1,9 @@
+Para que cargue la BBDD correctamente, se deben cambiar las credenciales de la misma en DBContext.cpp. Hay que cambiar las siguientes variables por los valores correspondientes:
+string DBContext::Host = "host";
+string DBContext::User = "user";
+string DBContext::Password = "password";
+string DBContext::Database = "database";
+
+Además, si se busca compilar de nuevo el programa desde Visual Studio 2022, se debe hacer seleccionando "Release" y "x64" en las opciones de compilación (de lo contrario no cargarán las opciones predeterminadas que tiene el compilador)
+
+Si solo se busca probar el programa, la versión compilada (.exe en TalleresJAJERA/x64/Release) funciona ya que ha sido compilada con las credenciales de un servidor AWS en la nube.
