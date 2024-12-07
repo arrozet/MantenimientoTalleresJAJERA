@@ -27,6 +27,10 @@ namespace TalleresJAJERA {
             Usuario usuario = Usuario(nombre);
 
             // Verificar si la contraseña es correcta
+            
+            if (usuario.getNombre() != nombre) {
+                return "error";
+            }
             if (usuario.getPassword() == password) {
                 return usuario.getRolName();  // Devolver el rol si la contraseña es correcta
             }
@@ -66,6 +70,10 @@ namespace TalleresJAJERA {
                 Test^ testForm = gcnew Test(rol);
                 testForm->ShowDialog();
                 this->Close();
+            }
+            else {
+                MessageBox::Show("Alguno de los campos introducidos no es correcto", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+                return;
             }
         }
         catch (const std::exception& e) {

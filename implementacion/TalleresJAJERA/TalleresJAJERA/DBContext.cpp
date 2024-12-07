@@ -6,6 +6,7 @@ using namespace msclr::interop;
 
 // Habilitamos el uso del namespace std
 using namespace std;
+using namespace msclr::interop;
 
 // Definición de los atributos estáticos de la clase DBContext.
 // Cambiar estos valores en función de la DB a la que te quieras conectar
@@ -65,13 +66,8 @@ bool DBContext::connect() {
         connection = unique_ptr<sql::Connection>(
             driver->connect("tcp://" + Host, User, Password)); // Conecta al host con las credenciales.
         connection->setSchema(Database); // Establece el esquema (base de datos).
-        
-        // Configura la conexión para usar UTF-8
-        unique_ptr<sql::Statement> stmt(connection->createStatement());
-        stmt->execute("SET NAMES 'utf8mb4'");
-        stmt->execute("SET CHARACTER SET 'utf8mb4'");
 
-        cout << "Conexión establecida con éxito.\n";
+        cout << "Conexion establecida con exito.\n";
         return true;
     }
     catch (sql::SQLException& e) {
