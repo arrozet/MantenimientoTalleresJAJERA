@@ -306,7 +306,7 @@ namespace TalleresJAJERA {
                 // Actualizar los campos de la pieza
                 piezaAActualizar.setNombre(nombreStr);
                 piezaAActualizar.setFabricante(fabricanteStr);
-                piezaAActualizar.setIdTipo(tipoStr);
+                //piezaAActualizar.setIdTipo(tipoStr);
 
                 // Mostrar mensaje de éxito
                 MessageBox::Show("Pieza actualizada con éxito.", "Éxito", MessageBoxButtons::OK, MessageBoxIcon::Information);
