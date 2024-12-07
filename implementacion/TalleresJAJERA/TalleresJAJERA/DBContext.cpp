@@ -8,6 +8,7 @@ using namespace msclr::interop;
 using namespace std;
 
 // Definición de los atributos estáticos de la clase DBContext.
+// Cambiar estos valores en función de la DB a la que te quieras conectar
 string DBContext::Host = "database-minipim.cdwgeayaeh1v.eu-central-1.rds.amazonaws.com:3306";
 string DBContext::User = "grupo07";
 string DBContext::Password = "FjLWM6DNk6TJDzfV";
