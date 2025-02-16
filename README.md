@@ -1,5 +1,7 @@
 # Maintenance system for JAJERA workshops
-
+<p align="center">
+  <img src="https://github.com/arrozet/MantenimientoTalleresJAJERA/blob/64655b40c432d3a29b61ac664b1435ad081345f0/!aux/pantalla_principal.png" alt="Main screen">
+</p>
 This project is a workshop maintenance application developed for the Information Management course at UMA's ETSII. It uses C++ and MySQL to manage mechanical part inventories and user permissions.
 
 ## Features
